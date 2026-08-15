@@ -49,6 +49,10 @@
         object-fit: contain;
     }
 
+    &__icon.is-loading {
+        visibility: hidden;
+    }
+
     &__button {
         width: functions.px-to-rem(207);
         height: functions.px-to-rem(62);

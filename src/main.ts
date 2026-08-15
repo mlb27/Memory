@@ -191,8 +191,26 @@ function updateResultContent(result: GameResult): void {
     if (resultEyebrow) resultEyebrow.textContent = isDraw ? "It's a" : "The winner is";
     if (resultTitle) resultTitle.textContent = isDraw ? "DRAW" : `${result.toUpperCase()} PLAYER`;
     if (!resultIcon) return;
-    resultIcon.src = isDraw ? "/assets/results/scale.png" : `/assets/results/pawn-${result}.png`;
-    resultIcon.alt = isDraw ? "Balanced scale" : `${result} player`;
+    const imagePath = isDraw ? "/assets/results/scale.png" : `/assets/results/pawn-${result}.png`;
+    const imageText = isDraw ? "Balanced scale" : `${result} player`;
+    updateResultIcon(imagePath, imageText);
+}
+
+/** Replaces the result icon without displaying its previous image. */
+function updateResultIcon(imagePath: string, imageText: string): void {
+    if (!resultIcon) return;
+    resultIcon.classList.add("is-loading");
+    resultIcon.onload = showResultIcon;
+    resultIcon.src = imagePath;
+    resultIcon.alt = imageText;
+    if (resultIcon.complete) showResultIcon();
+}
+
+/** Reveals the result icon after its new image is available. */
+function showResultIcon(): void {
+    if (!resultIcon) return;
+    resultIcon.classList.remove("is-loading");
+    resultIcon.onload = null;
 }
 
 /** Opens the native confirmation dialog. */
