@@ -1,0 +1,104 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.settings {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: clamp(functions.px-to-rem(48), 10.35vh, functions.px-to-rem(106))
+        functions.px-to-rem(24);
+    background-color: variables.$color-white;
+
+    &__inner {
+        width: 100%;
+        max-width: functions.px-to-rem(1103);
+        margin-inline: auto;
+    }
+
+    &__title {
+        position: relative;
+        width: fit-content;
+        margin: 0;
+        border-bottom: functions.px-to-rem(4) solid variables.$color-secondary-yellow;
+        color: variables.$color-primary-dark;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: functions.px-to-rem(54);
+        font-weight: 700;
+        line-height: 1.24;
+    }
+
+    &__title::before {
+        position: absolute;
+        bottom: functions.px-to-rem(-8);
+        left: functions.px-to-rem(-7);
+        width: functions.px-to-rem(14);
+        height: functions.px-to-rem(14);
+        transform: rotate(45deg);
+        background-color: variables.$color-secondary-yellow;
+        content: "";
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: minmax(functions.px-to-rem(300), 1fr) functions.px-to-rem(564);
+        margin-top: functions.px-to-rem(64);
+        gap: functions.px-to-rem(76);
+    }
+
+    &__choices {
+        display: flex;
+        flex-direction: column;
+        gap: functions.px-to-rem(42);
+    }
+
+    &__visual {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: functions.px-to-rem(42);
+    }
+
+    &__preview {
+        width: functions.px-to-rem(460);
+        max-width: 100%;
+        aspect-ratio: 460 / 412;
+        overflow: hidden;
+        border-radius: functions.px-to-rem(11);
+        background-repeat: no-repeat;
+        background-position: 82.65% 39.54%;
+        background-size: 313.043% auto;
+    }
+}
+
+body[data-theme="code-vibes"] .settings__preview {
+    background-image: url("/assets/settings/settings-theme-code-vibes.png");
+}
+
+body[data-theme="gaming"] .settings__preview {
+    background-image: url("/assets/settings/settings-theme-gaming.png");
+}
+
+@media (max-width: functions.px-to-rem(1050)) {
+    .settings__form {
+        grid-template-columns: 1fr;
+    }
+
+    .settings__visual {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: functions.px-to-rem(620)) {
+    .settings {
+        padding-inline: functions.px-to-rem(16);
+    }
+
+    .settings__title {
+        font-size: functions.px-to-rem(42);
+    }
+
+    .settings-summary {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: functions.px-to-rem(12);
+    }
+}

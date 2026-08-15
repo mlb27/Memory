@@ -7,16 +7,21 @@
   <title>Memory</title>
 </head>
 
-<body>
+<body data-screen="home" data-theme="code-vibes">
   <main class="app">
-    <section class="home" aria-labelledby="home-title">
+    <section class="home screen" data-screen-view="home" aria-labelledby="home-title">
       <div class="home__content">
         <div class="home__text">
           <p class="home__eyebrow">It’s play time.</p>
           <h1 class="home__title" id="home-title">Ready to play?</h1>
         </div>
 
-        <button class="primary-button" type="button" aria-label="Spiel starten">
+        <button
+          class="primary-button"
+          type="button"
+          data-action="open-settings"
+          aria-label="Einstellungen öffnen"
+        >
           <img src="/assets/icons/stadia-controller.png" alt="" width="44" height="32">
           <span>Play</span>
           <img src="/assets/icons/arrow-right.png" alt="" width="35" height="15">
@@ -31,6 +36,104 @@
         height="410"
         aria-hidden="true"
       >
+    </section>
+
+    <section
+      class="settings screen"
+      data-screen-view="settings"
+      aria-labelledby="settings-title"
+    >
+      <div class="settings__inner">
+        <h1 class="settings__title" id="settings-title">Settings</h1>
+
+        <form class="settings__form" id="settings-form">
+          <div class="settings__choices">
+            <fieldset class="settings-group settings-group--themes">
+              <legend class="settings-group__title">
+                <img src="/assets/icons/palette.png" alt="" width="27" height="27">
+                <span>Game themes</span>
+              </legend>
+
+              <label class="settings-option">
+                <input
+                  type="radio"
+                  name="theme"
+                  value="code-vibes"
+                  data-summary="Code vibes"
+                  checked
+                >
+                <span>Code vibes theme</span>
+              </label>
+
+              <label class="settings-option">
+                <input
+                  type="radio"
+                  name="theme"
+                  value="gaming"
+                  data-summary="Gaming"
+                >
+                <span>Gaming theme</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="settings-group">
+              <legend class="settings-group__title">
+                <img src="/assets/icons/chess-pawn.png" alt="" width="22" height="27">
+                <span>Choose player</span>
+              </legend>
+
+              <label class="settings-option">
+                <input type="radio" name="player" value="blue" data-summary="Blue">
+                <span>Blue</span>
+              </label>
+
+              <label class="settings-option">
+                <input type="radio" name="player" value="orange" data-summary="Orange">
+                <span>Orange</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="settings-group">
+              <legend class="settings-group__title">
+                <img src="/assets/icons/board-size-icon.png" alt="" width="32" height="32">
+                <span>Board size</span>
+              </legend>
+
+              <label class="settings-option">
+                <input type="radio" name="boardSize" value="16" data-summary="16 cards">
+                <span>16 cards</span>
+              </label>
+
+              <label class="settings-option">
+                <input type="radio" name="boardSize" value="24" data-summary="24 cards">
+                <span>24 cards</span>
+              </label>
+
+              <label class="settings-option">
+                <input type="radio" name="boardSize" value="36" data-summary="36 cards">
+                <span>36 cards</span>
+              </label>
+            </fieldset>
+          </div>
+
+          <div class="settings__visual">
+            <div class="settings__preview" role="img" aria-label="Vorschau des gewählten Themes"></div>
+
+            <div class="settings-summary" aria-live="polite">
+              <span id="theme-summary">Code vibes</span>
+              <span class="settings-summary__separator" aria-hidden="true"></span>
+              <span id="player-summary">Player</span>
+              <span class="settings-summary__separator" aria-hidden="true"></span>
+              <span id="board-summary">Board size</span>
+
+              <button class="settings-summary__button" type="button" disabled>
+                <img src="/assets/icons/play-button.png" alt="" width="20" height="16">
+                <span>Start</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 

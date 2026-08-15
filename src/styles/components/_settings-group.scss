@@ -1,0 +1,97 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    gap: functions.px-to-rem(12);
+    border: 0;
+    color: variables.$color-primary-dark;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        margin-bottom: functions.px-to-rem(8);
+        padding: 0;
+        gap: functions.px-to-rem(12);
+        font-size: functions.px-to-rem(24);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    &__title img {
+        object-fit: contain;
+    }
+}
+
+.settings-option {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-left: functions.px-to-rem(42);
+    gap: functions.px-to-rem(12);
+    color: variables.$color-primary-dark;
+    cursor: pointer;
+    font-size: functions.px-to-rem(20);
+    line-height: 1;
+
+    input {
+        display: grid;
+        flex: 0 0 auto;
+        width: functions.px-to-rem(20);
+        height: functions.px-to-rem(20);
+        margin: 0;
+        appearance: none;
+        border: functions.px-to-rem(2) solid variables.$color-primary-dark;
+        border-radius: 50%;
+        cursor: pointer;
+        place-content: center;
+    }
+
+    input::before {
+        width: functions.px-to-rem(8);
+        height: functions.px-to-rem(8);
+        transform: scale(0);
+        border-radius: 50%;
+        background-color: variables.$color-primary-dark;
+        content: "";
+        transition: transform 120ms ease-in-out;
+    }
+
+    input:checked::before {
+        transform: scale(1);
+    }
+
+    input:checked + span {
+        font-weight: 700;
+    }
+
+    input:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-secondary-yellow;
+        outline-offset: functions.px-to-rem(3);
+    }
+}
+
+.settings-group--themes .settings-option:has(input:checked)::after {
+    width: functions.px-to-rem(48);
+    height: functions.px-to-rem(2);
+    margin-left: functions.px-to-rem(4);
+    background-color: variables.$color-secondary-yellow;
+    content: "";
+}
+
+.settings-group--themes .settings-option:has(input:checked)::before {
+    position: absolute;
+    right: functions.px-to-rem(-6);
+    width: functions.px-to-rem(12);
+    height: functions.px-to-rem(12);
+    transform: rotate(45deg);
+    background-color: variables.$color-secondary-yellow;
+    content: "";
+}
+
+.settings-group--themes .settings-option {
+    position: relative;
+}

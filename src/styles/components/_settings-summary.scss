@@ -1,0 +1,50 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.settings-summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: functions.px-to-rem(81);
+    padding: functions.px-to-rem(14) functions.px-to-rem(20);
+    gap: functions.px-to-rem(16);
+    background-color: variables.$color-light-gray;
+    color: variables.$color-primary-dark;
+    font-size: functions.px-to-rem(20);
+    line-height: 1;
+
+    &__separator {
+        width: functions.px-to-rem(7);
+        height: functions.px-to-rem(49);
+        transform: skew(-18deg);
+        background-color: variables.$color-secondary-yellow;
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: functions.px-to-rem(126);
+        min-height: functions.px-to-rem(53);
+        padding: functions.px-to-rem(14) functions.px-to-rem(20);
+        gap: functions.px-to-rem(8);
+        border: none;
+        background-color: variables.$color-secondary-yellow;
+        color: variables.$color-primary-dark;
+        cursor: pointer;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: functions.px-to-rem(20);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    &__button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+    }
+
+    &__button:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-primary-dark;
+        outline-offset: functions.px-to-rem(3);
+    }
+}
