@@ -1,0 +1,27 @@
+{
+    "name": "memory",
+    "version": "1.0.0",
+    "description": "Memory game built with TypeScript, SCSS and Vite.",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -noEmit && vite build",
+        "preview": "vite preview"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mlb27/Memory.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/mlb27/Memory/issues"
+    },
+    "homepage": "https://github.com/mlb27/Memory#readme",
+    "devDependencies": {
+        "sass": "^1.102.0",
+        "typescript": "^7.0.2",
+        "vite": "^8.2.1"
+    }
+}
