@@ -1,0 +1,60 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.memory-card {
+    width: var(--memory-card-size);
+    height: var(--memory-card-size);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    perspective: functions.px-to-rem(700);
+
+    &__inner {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        transition: transform 400ms ease;
+        transform-style: preserve-3d;
+    }
+
+    &.is-flipped &__inner {
+        transform: rotateY(180deg);
+    }
+
+    &__side {
+        position: absolute;
+        inset: 0;
+        display: block;
+        overflow: hidden;
+        backface-visibility: hidden;
+    }
+
+    &__side--picture {
+        transform: rotateY(180deg);
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &:focus-visible {
+        outline: functions.px-to-rem(4) solid variables.$color-secondary-yellow;
+        outline-offset: functions.px-to-rem(4);
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .memory-card__inner {
+        transition-duration: 1ms;
+    }
+}

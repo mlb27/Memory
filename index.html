@@ -126,7 +126,12 @@
               <span class="settings-summary__separator" aria-hidden="true"></span>
               <span id="board-summary">Board size</span>
 
-              <button class="settings-summary__button" type="button" disabled>
+              <button
+                class="settings-summary__button"
+                type="button"
+                data-action="start-game"
+                disabled
+              >
                 <img src="/assets/icons/play-button.png" alt="" width="20" height="16">
                 <span>Start</span>
               </button>
@@ -135,7 +140,67 @@
         </form>
       </div>
     </section>
+
+    <section
+      class="game-screen screen"
+      data-screen-view="game"
+      aria-label="Code vibes Memory-Spiel"
+    >
+      <header class="game-header">
+        <div class="game-header__scores" aria-label="Punktestand">
+          <span class="player-score player-score--blue">
+            <img src="/assets/icons/game/player-blue.png" alt="" width="24" height="20">
+            <span>Blue</span>
+            <strong id="blue-score">0</strong>
+          </span>
+
+          <span class="player-score player-score--orange">
+            <img src="/assets/icons/game/player-orange.png" alt="" width="24" height="20">
+            <span>Orange</span>
+            <strong id="orange-score">0</strong>
+          </span>
+        </div>
+
+        <div class="game-header__current-player" id="current-player">
+          <span>Current player:</span>
+          <img
+            id="current-player-icon"
+            src="/assets/icons/game/player-blue.png"
+            alt="Blue"
+            width="24"
+            height="20"
+          >
+        </div>
+
+        <button class="game-header__exit" type="button" data-action="open-quit-dialog">
+          <img src="/assets/icons/game/exit-game.png" alt="" width="30" height="30">
+          <span>Exit game</span>
+        </button>
+      </header>
+
+      <div class="memory-board" id="memory-board" aria-label="Memory-Karten"></div>
+    </section>
   </main>
+
+  <dialog class="quit-dialog" id="quit-dialog" aria-labelledby="quit-dialog-title">
+    <h2 class="quit-dialog__title" id="quit-dialog-title">
+      Are you sure you want to quit<br>
+      the game?
+    </h2>
+
+    <div class="quit-dialog__actions">
+      <button class="quit-dialog__button" type="button" data-action="close-quit-dialog">
+        Back to game
+      </button>
+      <button
+        class="quit-dialog__button quit-dialog__button--outlined"
+        type="button"
+        data-action="confirm-game-exit"
+      >
+        Exit game
+      </button>
+    </div>
+  </dialog>
 
   <script type="module" src="./src/main.ts"></script>
 </body>

@@ -5,7 +5,8 @@
 }
 
 body[data-screen="home"] [data-screen-view="home"],
-body[data-screen="settings"] [data-screen-view="settings"] {
+body[data-screen="settings"] [data-screen-view="settings"],
+body[data-screen="game"] [data-screen-view="game"] {
     display: block;
 }
 

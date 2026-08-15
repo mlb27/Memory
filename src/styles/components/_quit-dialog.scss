@@ -1,0 +1,60 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.quit-dialog {
+    width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(360));
+    min-height: functions.px-to-rem(180);
+    padding: functions.px-to-rem(24);
+    border: none;
+    background-color: variables.$color-white;
+    color: variables.$color-primary-dark;
+
+    &::backdrop {
+        background-color: rgb(0 0 0 / 45%);
+    }
+
+    &__title {
+        margin: 0;
+        text-align: center;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: functions.px-to-rem(24);
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        margin-top: functions.px-to-rem(28);
+        gap: functions.px-to-rem(16);
+    }
+
+    &__button {
+        min-width: functions.px-to-rem(112);
+        min-height: functions.px-to-rem(40);
+        padding: functions.px-to-rem(8) functions.px-to-rem(14);
+        border: functions.px-to-rem(2) solid variables.$color-code-vibes;
+        background-color: variables.$color-code-vibes;
+        color: variables.$color-white;
+        cursor: pointer;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: functions.px-to-rem(16);
+        font-weight: 700;
+    }
+
+    &__button--outlined {
+        background-color: variables.$color-white;
+        color: variables.$color-code-vibes;
+    }
+
+    &__button:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-primary-dark;
+        outline-offset: functions.px-to-rem(3);
+    }
+}
+
+@media (max-width: functions.px-to-rem(420)) {
+    .quit-dialog__actions {
+        flex-direction: column;
+    }
+}

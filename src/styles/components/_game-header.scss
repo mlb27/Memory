@@ -1,0 +1,112 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.game-header {
+    display: grid;
+    grid-template-columns: functions.px-to-rem(292) 1fr functions.px-to-rem(292);
+    align-items: center;
+    width: min(calc(100% - functions.px-to-rem(223)), functions.px-to-rem(1217));
+    min-height: functions.px-to-rem(62);
+    margin-inline: auto;
+    font-family: "Red Rose", Georgia, serif;
+
+    &__scores {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: stretch;
+        gap: functions.px-to-rem(18);
+        background-color: variables.$color-game-control;
+    }
+
+    &__current-player {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: functions.px-to-rem(8);
+        font-size: functions.px-to-rem(26);
+        line-height: 1;
+    }
+
+    &__exit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: end;
+        align-self: stretch;
+        width: functions.px-to-rem(207);
+        padding: functions.px-to-rem(16);
+        gap: functions.px-to-rem(8);
+        border: functions.px-to-rem(1) solid variables.$color-code-vibes;
+        background-color: variables.$color-game-control;
+        color: variables.$color-white;
+        cursor: pointer;
+        font-size: functions.px-to-rem(24);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    &__exit:hover {
+        background-color: variables.$color-code-vibes;
+        box-shadow: 0 functions.px-to-rem(10) functions.px-to-rem(18) rgb(72 199 176 / 25%);
+    }
+
+    &__exit:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-secondary-yellow;
+        outline-offset: functions.px-to-rem(3);
+    }
+}
+
+.player-score {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(4);
+    font-size: functions.px-to-rem(20);
+    font-weight: 700;
+    line-height: 1;
+
+    &--blue {
+        color: variables.$color-player-blue;
+    }
+
+    &--orange {
+        color: variables.$color-player-orange;
+    }
+
+    strong {
+        font: inherit;
+    }
+}
+
+@media (max-width: functions.px-to-rem(850)) {
+    .game-header {
+        grid-template-columns: 1fr auto;
+        width: calc(100% - functions.px-to-rem(32));
+
+        &__scores {
+            min-height: functions.px-to-rem(54);
+        }
+
+        &__current-player {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            min-height: functions.px-to-rem(54);
+        }
+
+        &__exit {
+            width: auto;
+            min-height: functions.px-to-rem(54);
+        }
+    }
+}
+
+@media (max-width: functions.px-to-rem(520)) {
+    .game-header__scores {
+        gap: functions.px-to-rem(8);
+    }
+
+    .player-score,
+    .game-header__exit {
+        font-size: functions.px-to-rem(16);
+    }
+}

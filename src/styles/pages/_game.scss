@@ -1,0 +1,39 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.game-screen {
+    --memory-card-size: clamp(
+        #{functions.px-to-rem(64)},
+        8.333vw,
+        #{functions.px-to-rem(120)}
+    );
+    --memory-card-gap: clamp(
+        #{functions.px-to-rem(8)},
+        1.111vw,
+        #{functions.px-to-rem(16)}
+    );
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: functions.px-to-rem(41);
+    overflow: hidden;
+    background-color: variables.$color-primary-dark;
+    color: variables.$color-white;
+}
+
+.memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, var(--memory-card-size));
+    justify-content: center;
+    margin-top: functions.px-to-rem(54);
+    gap: var(--memory-card-gap);
+}
+
+@media (max-width: functions.px-to-rem(850)) {
+    .game-screen {
+        padding-top: functions.px-to-rem(24);
+    }
+
+    .memory-board {
+        margin-top: functions.px-to-rem(28);
+    }
+}
