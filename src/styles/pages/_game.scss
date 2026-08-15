@@ -28,6 +28,27 @@
     gap: var(--memory-card-gap);
 }
 
+body[data-board-size="24"] .game-screen {
+    --memory-card-size: min(
+        #{functions.px-to-rem(120)},
+        calc((100vw - #{functions.px-to-rem(72)}) / 6),
+        calc((100svh - #{functions.px-to-rem(181)}) / 4)
+    );
+}
+
+body[data-board-size="36"] .game-screen {
+    --memory-card-size: min(
+        #{functions.px-to-rem(120)},
+        calc((100vw - #{functions.px-to-rem(72)}) / 6),
+        calc((100svh - #{functions.px-to-rem(181)}) / 6)
+    );
+}
+
+body[data-board-size="24"] .memory-board,
+body[data-board-size="36"] .memory-board {
+    grid-template-columns: repeat(6, var(--memory-card-size));
+}
+
 @media (max-width: functions.px-to-rem(850)) {
     .game-screen {
         padding-top: functions.px-to-rem(24);

@@ -1,9 +1,10 @@
 import { CODE_VIBES_CARDS } from "../data/code-vibes-cards";
-import type { CardData, GameSettings } from "../types/game.types";
+import type { CardData, GameScores, GameSettings } from "../types/game.types";
 import { MemoryCard } from "./memory-card.class";
 import { Player } from "./player.class";
 
 const mismatchDelay = 700;
+const completionDelay = 700;
 
 export class MemoryGame {
     private readonly board: HTMLElement;
@@ -16,12 +17,15 @@ export class MemoryGame {
     private selectedCards: MemoryCard[] = [];
     private currentPlayerIndex: number;
     private mismatchTimeout?: number;
+    private completionTimeout?: number;
+    private matchedPairCount = 0;
     private boardIsLocked = false;
 
     /** Creates the game state and reads its interface elements. */
     constructor(
         private readonly root: HTMLElement,
         private readonly settings: GameSettings,
+        private readonly onGameOver: (scores: GameScores) => void,
     ) {
         this.players = [new Player("blue"), new Player("orange")];
         this.currentPlayerIndex = settings.startingPlayer === "blue" ? 0 : 1;
@@ -45,6 +49,7 @@ export class MemoryGame {
     /** Clears pending work, listeners and rendered cards. */
     destroy(): void {
         if (this.mismatchTimeout) window.clearTimeout(this.mismatchTimeout);
+        if (this.completionTimeout) window.clearTimeout(this.completionTimeout);
         this.cards.forEach((card) => card.destroy());
         this.cards = [];
         this.selectedCards = [];
@@ -83,8 +88,28 @@ export class MemoryGame {
     private resolveMatch(): void {
         this.selectedCards.forEach((card) => card.markAsMatched());
         this.currentPlayer.addPair();
+        this.matchedPairCount += 1;
         this.finishTurn();
         this.updateInterface();
+        this.checkForGameOver();
+    }
+
+    /** Finishes the game after the final pair was visible briefly. */
+    private checkForGameOver(): void {
+        if (this.matchedPairCount !== this.settings.boardSize / 2) return;
+        this.boardIsLocked = true;
+        this.completionTimeout = window.setTimeout(
+            () => this.onGameOver(this.getScores()),
+            completionDelay,
+        );
+    }
+
+    /** Returns a copy of the final player scores. */
+    private getScores(): GameScores {
+        return {
+            blue: this.players[0].score,
+            orange: this.players[1].score,
+        };
     }
 
     /** Waits briefly before concealing an incorrect pair. */

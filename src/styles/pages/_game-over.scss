@@ -1,0 +1,45 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.game-over-screen {
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-color: variables.$color-primary-dark;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: functions.px-to-rem(295);
+    }
+
+    &__title {
+        width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(998));
+        height: auto;
+    }
+
+    .final-score {
+        margin-top: functions.px-to-rem(118);
+    }
+}
+
+@media (max-width: functions.px-to-rem(850)) {
+    .game-over-screen {
+        &__content {
+            padding-top: clamp(
+                functions.px-to-rem(160),
+                28vh,
+                functions.px-to-rem(295)
+            );
+        }
+
+        .final-score {
+            margin-top: clamp(
+                functions.px-to-rem(64),
+                10vh,
+                functions.px-to-rem(118)
+            );
+        }
+    }
+}

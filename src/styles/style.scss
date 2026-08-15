@@ -3,10 +3,13 @@
 @use "./base/screens";
 @use "./components/primary-button";
 @use "./components/game-header";
+@use "./components/final-score";
 @use "./components/memory-card";
 @use "./components/quit-dialog";
 @use "./components/settings-group";
 @use "./components/settings-summary";
 @use "./pages/game";
+@use "./pages/game-over";
 @use "./pages/home";
+@use "./pages/result";
 @use "./pages/settings";

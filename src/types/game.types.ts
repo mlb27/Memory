@@ -8,6 +8,13 @@ export interface GameSettings {
     boardSize: BoardSize;
 }
 
+export interface GameScores {
+    blue: number;
+    orange: number;
+}
+
+export type GameResult = PlayerColor | "draw";
+
 export interface CardData {
     pairId: string;
     label: string;

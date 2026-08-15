@@ -180,6 +180,71 @@
 
       <div class="memory-board" id="memory-board" aria-label="Memory-Karten"></div>
     </section>
+
+    <section
+      class="game-over-screen screen"
+      data-screen-view="game-over"
+      aria-labelledby="game-over-title"
+    >
+      <div class="game-over-screen__content">
+        <img
+          class="game-over-screen__title"
+          id="game-over-title"
+          src="/assets/results/game-over.png"
+          alt="Game over"
+          width="998"
+          height="138"
+        >
+
+        <div class="final-score">
+          <p class="final-score__title">Final score</p>
+          <div class="final-score__values" aria-label="Endstand">
+            <span class="player-score player-score--blue">
+              <img src="/assets/icons/game/player-blue.png" alt="" width="24" height="20">
+              <span>Blue</span>
+              <strong id="final-blue-score">0</strong>
+            </span>
+
+            <span class="player-score player-score--orange">
+              <img src="/assets/icons/game/player-orange.png" alt="" width="24" height="20">
+              <span>Orange</span>
+              <strong id="final-orange-score">0</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="result-screen screen"
+      data-screen-view="result"
+      aria-labelledby="result-title"
+    >
+      <img
+        class="result-screen__confetti"
+        src="/assets/results/confetti.png"
+        alt=""
+        width="1234"
+        height="327"
+        aria-hidden="true"
+      >
+
+      <div class="result-screen__content">
+        <p class="result-screen__eyebrow" id="result-eyebrow">The winner is</p>
+        <h1 class="result-screen__title" id="result-title">BLUE PLAYER</h1>
+        <img
+          class="result-screen__icon"
+          id="result-icon"
+          src="/assets/results/pawn-blue.png"
+          alt="Blue player"
+          width="200"
+          height="250"
+        >
+        <button class="result-screen__button" type="button" data-action="back-to-settings">
+          Back to start
+        </button>
+      </div>
+    </section>
   </main>
 
   <dialog class="quit-dialog" id="quit-dialog" aria-labelledby="quit-dialog-title">

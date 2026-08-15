@@ -2,15 +2,22 @@ import "./styles/style.scss";
 import { MemoryGame } from "./classes/memory-game.class";
 import type {
     BoardSize,
+    GameResult,
+    GameScores,
     GameSettings,
     GameTheme,
     PlayerColor,
 } from "./types/game.types";
 
+const gameOverDuration = 3000;
 const settingsForm = document.querySelector<HTMLFormElement>("#settings-form");
 const gameScreen = document.querySelector<HTMLElement>("[data-screen-view=game]");
 const quitDialog = document.querySelector<HTMLDialogElement>("#quit-dialog");
+const resultEyebrow = document.querySelector<HTMLElement>("#result-eyebrow");
+const resultTitle = document.querySelector<HTMLElement>("#result-title");
+const resultIcon = document.querySelector<HTMLImageElement>("#result-icon");
 let activeGame: MemoryGame | null = null;
+let resultTimeout: number | undefined;
 
 initializeMemory();
 
@@ -26,6 +33,7 @@ function initializeMemory(): void {
     addActionListener("open-quit-dialog", openQuitDialog);
     addActionListener("close-quit-dialog", closeQuitDialog);
     addActionListener("confirm-game-exit", exitCurrentGame);
+    addActionListener("back-to-settings", returnToSettings);
     updateSettingsSummary();
 }
 
@@ -82,7 +90,8 @@ function updateSettingsSummary(): void {
 function isSupportedConfiguration(): boolean {
     const theme = getSelectedInput("theme")?.value;
     const boardSize = getSelectedInput("boardSize")?.value;
-    return theme === "code-vibes" && boardSize === "16";
+    const supportedSizes = ["16", "24", "36"];
+    return theme === "code-vibes" && supportedSizes.includes(boardSize ?? "");
 }
 
 /** Creates the selected game and displays its screen. */
@@ -90,8 +99,13 @@ function startSelectedGame(): void {
     const settings = getGameSettings();
 
     if (!settings || !gameScreen || !isSupportedConfiguration()) return;
+    clearResultTransition();
     activeGame?.destroy();
-    activeGame = new MemoryGame(gameScreen, settings);
+    activeGame = new MemoryGame(
+        gameScreen,
+        settings,
+        (scores) => handleCompletedGame(scores, settings.startingPlayer),
+    );
     activeGame.start();
     showGameScreen(settings);
 }
@@ -121,9 +135,64 @@ function createGameSettings(
 
 /** Stores the active game selection and displays the game screen. */
 function showGameScreen(settings: GameSettings): void {
+    delete document.body.dataset.result;
     document.body.dataset.screen = "game";
     document.body.dataset.player = settings.startingPlayer;
     document.body.dataset.boardSize = String(settings.boardSize);
+}
+
+/** Displays the outcome from the selected player's perspective. */
+function handleCompletedGame(scores: GameScores, selectedPlayer: PlayerColor): void {
+    activeGame?.destroy();
+    activeGame = null;
+    const result = getGameResult(scores);
+    if (result === "draw" || result === selectedPlayer) {
+        showResultScreen(result);
+        return;
+    }
+    showGameOver(scores, result);
+}
+
+/** Displays a loss briefly before revealing the winning opponent. */
+function showGameOver(scores: GameScores, result: GameResult): void {
+    updateFinalScores(scores);
+    document.body.dataset.screen = "game-over";
+    resultTimeout = window.setTimeout(
+        () => showResultScreen(result),
+        gameOverDuration,
+    );
+}
+
+/** Writes the final score into the game-over screen. */
+function updateFinalScores(scores: GameScores): void {
+    const blueScore = document.querySelector<HTMLElement>("#final-blue-score");
+    const orangeScore = document.querySelector<HTMLElement>("#final-orange-score");
+    if (blueScore) blueScore.textContent = String(scores.blue);
+    if (orangeScore) orangeScore.textContent = String(scores.orange);
+}
+
+/** Displays the prepared winner or draw screen. */
+function showResultScreen(result: GameResult): void {
+    document.body.dataset.result = result;
+    updateResultContent(result);
+    document.body.dataset.screen = "result";
+    resultTimeout = undefined;
+}
+
+/** Compares both scores and returns the completed game's result. */
+function getGameResult(scores: GameScores): GameResult {
+    if (scores.blue === scores.orange) return "draw";
+    return scores.blue > scores.orange ? "blue" : "orange";
+}
+
+/** Updates the shared result elements for winner or draw. */
+function updateResultContent(result: GameResult): void {
+    const isDraw = result === "draw";
+    if (resultEyebrow) resultEyebrow.textContent = isDraw ? "It's a" : "The winner is";
+    if (resultTitle) resultTitle.textContent = isDraw ? "DRAW" : `${result.toUpperCase()} PLAYER`;
+    if (!resultIcon) return;
+    resultIcon.src = isDraw ? "/assets/results/scale.png" : `/assets/results/pawn-${result}.png`;
+    resultIcon.alt = isDraw ? "Balanced scale" : `${result} player`;
 }
 
 /** Opens the native confirmation dialog. */
@@ -141,5 +210,18 @@ function exitCurrentGame(): void {
     activeGame?.destroy();
     activeGame = null;
     closeQuitDialog();
+    returnToSettings();
+}
+
+/** Returns from an outcome screen to the retained settings. */
+function returnToSettings(): void {
+    clearResultTransition();
+    delete document.body.dataset.result;
     document.body.dataset.screen = "settings";
+}
+
+/** Cancels an unfinished transition to an outcome screen. */
+function clearResultTransition(): void {
+    if (resultTimeout) window.clearTimeout(resultTimeout);
+    resultTimeout = undefined;
 }

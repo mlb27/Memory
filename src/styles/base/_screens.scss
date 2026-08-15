@@ -6,7 +6,9 @@
 
 body[data-screen="home"] [data-screen-view="home"],
 body[data-screen="settings"] [data-screen-view="settings"],
-body[data-screen="game"] [data-screen-view="game"] {
+body[data-screen="game"] [data-screen-view="game"],
+body[data-screen="game-over"] [data-screen-view="game-over"],
+body[data-screen="result"] [data-screen-view="result"] {
     display: block;
 }
 

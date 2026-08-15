@@ -1,0 +1,153 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.result-screen {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-color: variables.$color-primary-dark;
+    animation: result-screen-in 500ms ease-out;
+
+    &__confetti {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: min(100%, functions.px-to-rem(1234));
+        height: auto;
+        transform: translateX(-50%);
+    }
+
+    &__content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: functions.px-to-rem(325);
+    }
+
+    &__eyebrow {
+        margin: 0;
+        font-size: functions.px-to-rem(26);
+        line-height: 1.25;
+    }
+
+    &__title {
+        margin: functions.px-to-rem(28) 0 0;
+        color: variables.$color-player-blue;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: functions.px-to-rem(60);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    &__icon {
+        width: functions.px-to-rem(200);
+        height: functions.px-to-rem(250);
+        margin-top: functions.px-to-rem(69);
+        object-fit: contain;
+    }
+
+    &__button {
+        width: functions.px-to-rem(207);
+        height: functions.px-to-rem(62);
+        margin-top: functions.px-to-rem(60);
+        border: functions.px-to-rem(1) solid variables.$color-code-vibes;
+        background-color: variables.$color-game-control;
+        color: variables.$color-white;
+        cursor: pointer;
+        font-family: "Red Rose", Georgia, serif;
+        font-weight: 700;
+    }
+
+    &__button:hover {
+        background-color: variables.$color-code-vibes;
+    }
+
+    &__button:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-secondary-yellow;
+        outline-offset: functions.px-to-rem(3);
+    }
+}
+
+body[data-result="orange"] .result-screen__title {
+    color: variables.$color-player-orange;
+}
+
+body[data-result="draw"] .result-screen {
+    &__confetti {
+        display: none;
+    }
+
+    &__content {
+        padding-top: functions.px-to-rem(235);
+    }
+
+    &__title {
+        margin-top: functions.px-to-rem(15);
+        transform: scale(1.65);
+        color: variables.$color-result-green;
+        font-size: functions.px-to-rem(80);
+        text-shadow: functions.px-to-rem(4) functions.px-to-rem(5) 0 #27685f;
+    }
+
+    &__icon {
+        width: functions.px-to-rem(353);
+        height: functions.px-to-rem(283);
+        margin-top: functions.px-to-rem(60);
+    }
+}
+
+@keyframes result-screen-in {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: functions.px-to-rem(600)) {
+    .result-screen {
+        &__content {
+            padding-top: functions.px-to-rem(180);
+        }
+
+        &__title {
+            font-size: functions.px-to-rem(36);
+        }
+
+        &__icon {
+            width: functions.px-to-rem(120);
+            height: functions.px-to-rem(150);
+            margin-top: functions.px-to-rem(32);
+        }
+
+        &__button {
+            margin-top: functions.px-to-rem(32);
+        }
+    }
+
+    body[data-result="draw"] .result-screen {
+        &__content {
+            padding-top: functions.px-to-rem(160);
+        }
+
+        &__title {
+            font-size: functions.px-to-rem(60);
+        }
+
+        &__icon {
+            width: functions.px-to-rem(212);
+            height: functions.px-to-rem(170);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .result-screen {
+        animation: none;
+    }
+}
