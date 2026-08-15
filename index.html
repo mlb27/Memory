@@ -8,14 +8,29 @@
 </head>
 
 <body>
-  <main>
-    <section id="field" aria-label="Memory-Spielfeld">
-      <button class="card" type="button" aria-label="Memory-Karte umdrehen" aria-pressed="false">
-        <span class="card__inner" aria-hidden="true">
-          <span class="card__face card__face--front"></span>
-          <span class="card__face card__face--back"></span>
-        </span>
-      </button>
+  <main class="app">
+    <section class="home" aria-labelledby="home-title">
+      <div class="home__content">
+        <div class="home__text">
+          <p class="home__eyebrow">It’s play time.</p>
+          <h1 class="home__title" id="home-title">Ready to play?</h1>
+        </div>
+
+        <button class="primary-button" type="button" aria-label="Spiel starten">
+          <img src="/assets/icons/stadia-controller.png" alt="" width="44" height="32">
+          <span>Play</span>
+          <img src="/assets/icons/arrow-right.png" alt="" width="35" height="15">
+        </button>
+      </div>
+
+      <img
+        class="home__decoration"
+        src="/assets/icons/stadia-controller-large.png"
+        alt=""
+        width="363"
+        height="410"
+        aria-hidden="true"
+      >
     </section>
   </main>
 

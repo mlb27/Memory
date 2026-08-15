@@ -1,0 +1,71 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.app {
+    width: 100%;
+    max-width: functions.px-to-rem(1440);
+    min-height: 100vh;
+    min-height: 100svh;
+    margin-inline: auto;
+}
+
+.home {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-color: variables.$color-primary-dark;
+
+    &__content {
+        position: absolute;
+        z-index: 1;
+        top: min(38.38vh, functions.px-to-rem(393));
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        transform: translateX(-50%);
+    }
+
+    &__text {
+        width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(991));
+    }
+
+    &__eyebrow {
+        margin: 0;
+        font-size: clamp(
+            functions.px-to-rem(24),
+            3.333vw,
+            functions.px-to-rem(48)
+        );
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    &__title {
+        margin: 0;
+        font-family: "Red Rose", Georgia, serif;
+        font-size: clamp(
+            functions.px-to-rem(48),
+            9.722vw,
+            functions.px-to-rem(140)
+        );
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    .primary-button {
+        margin-top: functions.px-to-rem(72);
+    }
+
+    &__decoration {
+        position: absolute;
+        bottom: functions.px-to-rem(13);
+        left: functions.px-to-rem(88);
+        width: functions.px-to-rem(363);
+        height: functions.px-to-rem(410);
+        object-fit: contain;
+    }
+}

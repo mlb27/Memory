@@ -1,0 +1,26 @@
+@use "../abstracts/variables" as variables;
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+    min-height: 100%;
+    background-color: variables.$color-primary-dark;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    background-color: variables.$color-primary-dark;
+    color: variables.$color-white;
+    font-family: "Almarai", Arial, Helvetica, sans-serif;
+}
+
+button {
+    font: inherit;
+}

@@ -1,0 +1,24 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+.primary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: functions.px-to-rem(250);
+    height: functions.px-to-rem(98);
+    padding: functions.px-to-rem(20);
+    gap: functions.px-to-rem(24);
+    border: none;
+    background-color: variables.$color-secondary-yellow;
+    color: variables.$color-primary-dark;
+    cursor: pointer;
+    font-family: "Red Rose", Georgia, serif;
+    font-size: functions.px-to-rem(40);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.primary-button img {
+    flex-shrink: 0;
+}
