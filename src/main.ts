@@ -370,7 +370,9 @@ function closeQuitDialog(): void {
   if (QUIT_DIALOG?.open) QUIT_DIALOG.close();
 }
 
-/** Ends the active game and returns to its settings. */
+/**
+ * Destroys the active game and returns to its retained settings.
+ */
 function exitCurrentGame(): void {
   activeGame?.destroy();
   activeGame = null;
