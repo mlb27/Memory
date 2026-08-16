@@ -149,7 +149,7 @@ function showGameScreen(settings: GameSettings): void {
     document.body.dataset.player = settings.startingPlayer;
     document.body.dataset.boardSize = String(settings.boardSize);
     const themeName = settings.theme === "gaming" ? "Gaming" : "Code vibes";
-    gameScreen?.setAttribute("aria-label", `${themeName} Memory-Spiel`);
+    gameScreen?.setAttribute("aria-label", `${themeName} memory game`);
     updateThemeTexts(settings.theme);
 }
 
