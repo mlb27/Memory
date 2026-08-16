@@ -12,6 +12,7 @@
         1.111vw,
         #{functions.px-to-rem(16)}
     );
+    --memory-vertical-reserve: #{functions.px-to-rem(181)};
     --memory-card-width: var(--memory-card-size);
     --memory-card-height: var(--memory-card-size);
     min-height: 100vh;
@@ -22,6 +23,10 @@
     color: variables.$color-white;
 }
 
+body[data-theme='code-vibes'] .game-screen {
+    padding-bottom: functions.px-to-rem(32);
+}
+
 .memory-board {
     display: grid;
     grid-template-columns: repeat(4, var(--memory-card-width));
@@ -30,11 +35,44 @@
     gap: var(--memory-card-gap);
 }
 
+body[data-board-size='16'] .game-screen {
+    --memory-card-size: clamp(
+        #{functions.px-to-rem(64)},
+        calc(14.737vw + #{functions.px-to-rem(16.842)}),
+        #{functions.px-to-rem(120)}
+    );
+    --memory-card-gap: clamp(
+        #{functions.px-to-rem(8)},
+        calc(2.105vw + #{functions.px-to-rem(1.263)}),
+        #{functions.px-to-rem(16)}
+    );
+}
+
+body[data-theme='code-vibes'][data-board-size='16'] .game-screen {
+    --memory-card-size: min(
+        clamp(
+            #{functions.px-to-rem(64)},
+            calc(14.737vw + #{functions.px-to-rem(16.842)}),
+            #{functions.px-to-rem(120)}
+        ),
+        calc((100svh - var(--memory-vertical-reserve)) / 4)
+    );
+    --memory-vertical-reserve: #{functions.px-to-rem(237)};
+}
+
+body[data-theme='code-vibes'][data-board-size='24'] .game-screen {
+    --memory-vertical-reserve: #{functions.px-to-rem(237)};
+}
+
+body[data-theme='code-vibes'][data-board-size='36'] .game-screen {
+    --memory-vertical-reserve: #{functions.px-to-rem(269)};
+}
+
 body[data-board-size="24"] .game-screen {
     --memory-card-size: min(
         #{functions.px-to-rem(120)},
         calc((100vw - #{functions.px-to-rem(72)}) / 6),
-        calc((100svh - #{functions.px-to-rem(181)}) / 4)
+        calc((100svh - var(--memory-vertical-reserve)) / 4)
     );
 }
 
@@ -42,13 +80,24 @@ body[data-board-size="36"] .game-screen {
     --memory-card-size: min(
         #{functions.px-to-rem(120)},
         calc((100vw - #{functions.px-to-rem(72)}) / 6),
-        calc((100svh - #{functions.px-to-rem(181)}) / 6)
+        calc((100svh - var(--memory-vertical-reserve)) / 6)
     );
 }
 
 body[data-board-size="24"] .memory-board,
 body[data-board-size="36"] .memory-board {
     grid-template-columns: repeat(6, var(--memory-card-width));
+}
+
+@media (max-width: functions.px-to-rem(1050)) {
+    body[data-theme='code-vibes'][data-board-size='16'] .game-screen,
+    body[data-theme='code-vibes'][data-board-size='24'] .game-screen {
+        --memory-vertical-reserve: #{functions.px-to-rem(271)};
+    }
+
+    body[data-theme='code-vibes'][data-board-size='36'] .game-screen {
+        --memory-vertical-reserve: #{functions.px-to-rem(295)};
+    }
 }
 
 @media (max-width: functions.px-to-rem(850)) {
@@ -58,5 +107,17 @@ body[data-board-size="36"] .memory-board {
 
     .memory-board {
         margin-top: functions.px-to-rem(28);
+    }
+
+    body[data-theme='code-vibes'][data-board-size='16'] .game-screen {
+        --memory-vertical-reserve: #{functions.px-to-rem(240)};
+    }
+
+    body[data-theme='code-vibes'][data-board-size='24'] .game-screen {
+        --memory-vertical-reserve: #{functions.px-to-rem(222)};
+    }
+
+    body[data-theme='code-vibes'][data-board-size='36'] .game-screen {
+        --memory-vertical-reserve: #{functions.px-to-rem(242)};
     }
 }

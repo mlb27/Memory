@@ -69,3 +69,10 @@
         object-fit: contain;
     }
 }
+
+@media (max-width: functions.px-to-rem(370)) {
+    .home__title {
+        margin-top: functions.px-to-rem(16);
+        font-size: functions.px-to-rem(24);
+    }
+}

@@ -5,20 +5,42 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: functions.px-to-rem(250);
-    height: functions.px-to-rem(98);
-    padding: functions.px-to-rem(20);
-    gap: functions.px-to-rem(24);
+    width: clamp(
+        functions.px-to-rem(200),
+        25vw,
+        functions.px-to-rem(250)
+    );
+    height: clamp(
+        functions.px-to-rem(72),
+        9.8vw,
+        functions.px-to-rem(98)
+    );
+    padding: clamp(
+        functions.px-to-rem(14),
+        2vw,
+        functions.px-to-rem(20)
+    );
+    gap: clamp(
+        functions.px-to-rem(16),
+        2.4vw,
+        functions.px-to-rem(24)
+    );
     border: none;
     background-color: variables.$color-secondary-yellow;
     color: variables.$color-primary-dark;
     cursor: pointer;
     font-family: "Red Rose", Georgia, serif;
-    font-size: functions.px-to-rem(40);
+    font-size: clamp(
+        functions.px-to-rem(32),
+        4vw,
+        functions.px-to-rem(40)
+    );
     font-weight: 700;
     line-height: 1;
 }
 
 .primary-button img {
     flex-shrink: 0;
+    max-width: 20%;
+    height: auto;
 }

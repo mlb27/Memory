@@ -77,13 +77,31 @@ body[data-theme="gaming"] .settings__preview {
     background-image: url("/assets/settings/settings-theme-gaming.png");
 }
 
-@media (max-width: functions.px-to-rem(1050)) {
+@media (max-width: functions.px-to-rem(1052)) {
+    .settings__title {
+        margin-inline: auto;
+    }
+
     .settings__form {
         grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .settings__choices {
+        width: fit-content;
     }
 
     .settings__visual {
-        align-items: flex-start;
+        align-items: center;
+        width: 100%;
+    }
+
+    .settings__preview {
+        display: none;
+    }
+
+    .settings-summary {
+        justify-content: center;
     }
 }
 
@@ -98,7 +116,7 @@ body[data-theme="gaming"] .settings__preview {
 
     .settings-summary {
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: center;
         gap: functions.px-to-rem(12);
     }
 }
