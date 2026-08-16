@@ -64,17 +64,17 @@
         overflow: hidden;
         border-radius: functions.px-to-rem(11);
         background-repeat: no-repeat;
-        background-position: 82.65% 39.54%;
-        background-size: 313.043% auto;
+        background-position: center;
+        background-size: cover;
     }
 }
 
 body[data-theme="code-vibes"] .settings__preview {
-    background-image: url("/assets/settings/settings-theme-code-vibes.png");
+    background-image: url("/assets/settings/code-vibes-preview.png");
 }
 
 body[data-theme="gaming"] .settings__preview {
-    background-image: url("/assets/settings/settings-theme-gaming.png");
+    background-image: url("/assets/settings/gaming-preview.png");
 }
 
 @media (max-width: functions.px-to-rem(1052)) {
