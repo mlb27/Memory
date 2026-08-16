@@ -31,7 +31,7 @@ export class MemoryCard {
   flip(): void {
     this.isFlipped = true;
     this.element.classList.add("is-flipped");
-    this.element.setAttribute("aria-label", `Aufgedeckte Karte: ${this.data.label}`);
+    this.element.setAttribute("aria-label", `Revealed card: ${this.data.label}`);
     this.element.setAttribute("aria-pressed", "true");
   }
 
@@ -39,7 +39,7 @@ export class MemoryCard {
   hide(): void {
     this.isFlipped = false;
     this.element.classList.remove("is-flipped");
-    this.element.setAttribute("aria-label", "Verdeckte Memory-Karte");
+    this.element.setAttribute("aria-label", "Hidden memory card");
     this.element.setAttribute("aria-pressed", "false");
   }
 
@@ -48,7 +48,7 @@ export class MemoryCard {
     this.isMatched = true;
     this.element.classList.add("is-matched");
     this.element.disabled = true;
-    this.element.setAttribute("aria-label", `Gefundenes Paar: ${this.data.label}`);
+    this.element.setAttribute("aria-label", `Matched pair: ${this.data.label}`);
   }
 
   /** Removes the card listener before a game is discarded. */
@@ -61,7 +61,7 @@ export class MemoryCard {
     const button = document.createElement("button");
     button.className = "memory-card";
     button.type = "button";
-    button.setAttribute("aria-label", "Verdeckte Memory-Karte");
+    button.setAttribute("aria-label", "Hidden memory card");
     button.setAttribute("aria-pressed", "false");
     button.innerHTML = this.createCardMarkup();
     return button;
