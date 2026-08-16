@@ -2,8 +2,8 @@
 @use "../abstracts/variables" as variables;
 
 .memory-card {
-    width: var(--memory-card-size);
-    height: var(--memory-card-size);
+    width: var(--memory-card-width);
+    height: var(--memory-card-height);
     padding: 0;
     border: 0;
     background: none;

@@ -1,0 +1,355 @@
+@use "../abstracts/functions" as functions;
+@use "../abstracts/variables" as variables;
+
+body[data-theme="gaming"] {
+    &[data-screen="game"],
+    &[data-screen="game-over"],
+    &[data-screen="result"] {
+        background-color: variables.$color-gaming-background;
+    }
+
+    .game-screen,
+    .game-over-screen,
+    .result-screen,
+    .quit-dialog {
+        font-family: "Orbitron", Arial, Helvetica, sans-serif;
+    }
+
+    .game-screen {
+        --memory-card-width: min(
+            #{functions.px-to-rem(105)},
+            calc((100vw - #{functions.px-to-rem(80)}) / 4),
+            calc((100svh - #{functions.px-to-rem(205)}) / 4.5714)
+        );
+        --memory-card-height: auto;
+        --memory-card-gap: clamp(
+            #{functions.px-to-rem(6)},
+            1.111vw,
+            #{functions.px-to-rem(16)}
+        );
+        background-color: variables.$color-gaming-background;
+    }
+
+    &[data-board-size="24"] .game-screen {
+        --memory-card-width: min(
+            #{functions.px-to-rem(105)},
+            calc((100vw - #{functions.px-to-rem(112)}) / 6),
+            calc((100svh - #{functions.px-to-rem(205)}) / 4.5714)
+        );
+    }
+
+    &[data-board-size="36"] .game-screen {
+        --memory-card-width: min(
+            #{functions.px-to-rem(105)},
+            calc((100vw - #{functions.px-to-rem(112)}) / 6),
+            calc((100svh - #{functions.px-to-rem(253)}) / 6.8571)
+        );
+    }
+
+    .memory-board {
+        margin-top: functions.px-to-rem(46);
+    }
+
+    .memory-card {
+        height: auto;
+        aspect-ratio: 7 / 8;
+
+        &__side {
+            overflow: visible;
+        }
+
+        img {
+            width: 122.857%;
+            max-width: none;
+            height: 120%;
+            object-fit: fill;
+        }
+
+        &.is-matched &__side--picture::after {
+            position: absolute;
+            top: 3.333%;
+            left: 3.81%;
+            width: 100%;
+            height: 100%;
+            border: functions.px-to-rem(3) solid variables.$color-gaming-pink;
+            border-radius: functions.px-to-rem(14);
+            content: "";
+            pointer-events: none;
+        }
+
+        &:focus-visible {
+            outline-color: variables.$color-gaming-pink;
+        }
+    }
+
+    .game-header {
+        grid-template-columns: functions.px-to-rem(180) 1fr functions.px-to-rem(180);
+        min-height: functions.px-to-rem(62);
+        padding-inline: functions.px-to-rem(14);
+        border-radius: functions.px-to-rem(8);
+        background-color: variables.$color-gaming-header;
+        font-family: "Orbitron", Arial, Helvetica, sans-serif;
+
+        &__scores {
+            align-self: auto;
+            height: functions.px-to-rem(40);
+            padding-inline: functions.px-to-rem(12);
+            border-radius: functions.px-to-rem(6);
+            background-color: variables.$color-gaming-light;
+            gap: functions.px-to-rem(16);
+        }
+
+        &__scores .player-score--orange {
+            order: -1;
+        }
+
+        &__current-player {
+            font-size: functions.px-to-rem(20);
+        }
+
+        &__exit {
+            align-self: auto;
+            width: functions.px-to-rem(171);
+            min-height: functions.px-to-rem(46);
+            padding: functions.px-to-rem(8);
+            border: functions.px-to-rem(2) solid variables.$color-gaming-pink;
+            border-radius: functions.px-to-rem(8);
+            background-color: transparent;
+            font-size: functions.px-to-rem(16);
+        }
+
+        &__exit:hover {
+            background-color: variables.$color-gaming-pink;
+            box-shadow: 0 functions.px-to-rem(8) functions.px-to-rem(16)
+                rgb(237 27 118 / 25%);
+        }
+
+        &__exit:focus-visible {
+            outline-color: variables.$color-gaming-light;
+        }
+    }
+
+    .player-score {
+        font-family: "Orbitron", Arial, Helvetica, sans-serif;
+        font-size: functions.px-to-rem(18);
+
+        > span {
+            display: none;
+        }
+    }
+
+    .quit-dialog {
+        width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(430));
+        min-height: functions.px-to-rem(220);
+        padding: functions.px-to-rem(32);
+        border-radius: functions.px-to-rem(16);
+        background-color: variables.$color-gaming-light;
+
+        &__title {
+            color: variables.$color-gaming-background;
+            font-family: "Orbitron", Arial, Helvetica, sans-serif;
+            font-size: functions.px-to-rem(20);
+            line-height: 1.4;
+        }
+
+        &__button {
+            min-width: functions.px-to-rem(170);
+            min-height: functions.px-to-rem(48);
+            border-color: variables.$color-gaming-pink;
+            border-radius: functions.px-to-rem(8);
+            background-color: variables.$color-gaming-pink;
+            font-family: "Orbitron", Arial, Helvetica, sans-serif;
+            font-size: functions.px-to-rem(13);
+        }
+
+        &__button--outlined {
+            background-color: transparent;
+            color: variables.$color-gaming-pink;
+        }
+    }
+
+    .game-over-screen {
+        background-color: variables.$color-gaming-background;
+
+        &__content {
+            padding-top: functions.px-to-rem(255);
+        }
+
+        &__title {
+            display: none;
+        }
+
+        &__gaming-title {
+            display: block;
+            color: variables.$color-gaming-pink;
+            font-size: clamp(
+                functions.px-to-rem(54),
+                8.611vw,
+                functions.px-to-rem(124)
+            );
+            font-weight: 900;
+            letter-spacing: 0.07em;
+            line-height: 1;
+            text-shadow: functions.px-to-rem(4) functions.px-to-rem(6) 0 #173746;
+            white-space: nowrap;
+        }
+
+        .final-score {
+            margin-top: functions.px-to-rem(72);
+        }
+    }
+
+    .final-score {
+        font-family: "Orbitron", Arial, Helvetica, sans-serif;
+
+        &__title {
+            height: functions.px-to-rem(42);
+            font-size: functions.px-to-rem(18);
+        }
+
+        &__values {
+            width: fit-content;
+            height: functions.px-to-rem(42);
+            margin-inline: auto;
+            padding-inline: functions.px-to-rem(10);
+            border-radius: functions.px-to-rem(6);
+            background-color: variables.$color-gaming-light;
+            gap: functions.px-to-rem(16);
+        }
+
+        &__values .player-score--orange {
+            order: -1;
+        }
+    }
+
+    .result-screen {
+        background-color: variables.$color-gaming-background;
+
+        &__confetti {
+            display: none;
+        }
+
+        &__content {
+            padding-top: functions.px-to-rem(190);
+        }
+
+        &__eyebrow {
+            font-size: functions.px-to-rem(22);
+        }
+
+        &__title {
+            margin-top: functions.px-to-rem(12);
+            color: #078ed1;
+            font-family: "Orbitron", Arial, Helvetica, sans-serif;
+            font-size: functions.px-to-rem(48);
+            font-weight: 600;
+            text-shadow: functions.px-to-rem(3) functions.px-to-rem(4) 0 #173746;
+        }
+
+        &__icon {
+            width: functions.px-to-rem(230);
+            height: auto;
+            margin-top: functions.px-to-rem(36);
+        }
+
+        &__button {
+            width: auto;
+            min-width: functions.px-to-rem(86);
+            height: functions.px-to-rem(44);
+            margin-top: functions.px-to-rem(32);
+            padding-inline: functions.px-to-rem(16);
+            border: functions.px-to-rem(2) solid variables.$color-gaming-pink;
+            border-radius: functions.px-to-rem(7);
+            background-color: transparent;
+            font-family: "Orbitron", Arial, Helvetica, sans-serif;
+            font-size: functions.px-to-rem(13);
+        }
+
+        &__button:hover {
+            background-color: variables.$color-gaming-pink;
+        }
+    }
+
+    &[data-result="orange"] .result-screen__title {
+        color: #ff7800;
+    }
+
+    &[data-result="draw"] .result-screen {
+        &__content {
+            padding-top: functions.px-to-rem(220);
+        }
+
+        &__title {
+            margin-top: functions.px-to-rem(12);
+            transform: none;
+            color: variables.$color-gaming-pink;
+            font-size: functions.px-to-rem(80);
+            text-shadow: functions.px-to-rem(3) functions.px-to-rem(5) 0 #173746;
+        }
+
+        &__icon {
+            width: functions.px-to-rem(350);
+            height: auto;
+            margin-top: functions.px-to-rem(28);
+        }
+    }
+}
+
+@media (max-width: functions.px-to-rem(850)) {
+    body[data-theme="gaming"] .game-header {
+        grid-template-columns: 1fr auto;
+        width: calc(100% - functions.px-to-rem(32));
+        padding: functions.px-to-rem(8);
+
+        &__scores {
+            justify-self: start;
+        }
+
+        &__current-player {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+
+        &__exit {
+            width: auto;
+        }
+    }
+}
+
+@media (max-width: functions.px-to-rem(600)) {
+    body[data-theme="gaming"] {
+        .game-over-screen__content {
+            padding-top: functions.px-to-rem(180);
+        }
+
+        .result-screen__content,
+        &[data-result="draw"] .result-screen__content {
+            padding-top: functions.px-to-rem(150);
+        }
+
+        .result-screen__title {
+            font-size: functions.px-to-rem(34);
+        }
+
+        &[data-result="draw"] .result-screen__title {
+            font-size: functions.px-to-rem(56);
+        }
+
+        .result-screen__icon,
+        &[data-result="draw"] .result-screen__icon {
+            width: functions.px-to-rem(190);
+        }
+    }
+}
+
+@media (max-width: functions.px-to-rem(450)) {
+    body[data-theme="gaming"] .quit-dialog {
+        &__actions {
+            flex-direction: column;
+        }
+
+        &__button {
+            width: 100%;
+        }
+    }
+}

@@ -12,6 +12,8 @@
         1.111vw,
         #{functions.px-to-rem(16)}
     );
+    --memory-card-width: var(--memory-card-size);
+    --memory-card-height: var(--memory-card-size);
     min-height: 100vh;
     min-height: 100svh;
     padding-top: functions.px-to-rem(41);
@@ -22,7 +24,7 @@
 
 .memory-board {
     display: grid;
-    grid-template-columns: repeat(4, var(--memory-card-size));
+    grid-template-columns: repeat(4, var(--memory-card-width));
     justify-content: center;
     margin-top: functions.px-to-rem(54);
     gap: var(--memory-card-gap);
@@ -46,7 +48,7 @@ body[data-board-size="36"] .game-screen {
 
 body[data-board-size="24"] .memory-board,
 body[data-board-size="36"] .memory-board {
-    grid-template-columns: repeat(6, var(--memory-card-size));
+    grid-template-columns: repeat(6, var(--memory-card-width));
 }
 
 @media (max-width: functions.px-to-rem(850)) {

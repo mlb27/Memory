@@ -1,4 +1,5 @@
 import { CODE_VIBES_CARDS } from "../data/code-vibes-cards";
+import { GAMING_CARDS } from "../data/gaming-cards";
 import type { CardData, GameScores, GameSettings } from "../types/game.types";
 import { MemoryCard } from "./memory-card.class";
 import { Player } from "./player.class";
@@ -40,7 +41,11 @@ export class MemoryGame {
     start(): void {
         const roundCards = this.createRoundCards();
         this.cards = roundCards.map(
-            (data) => new MemoryCard(data, (card) => this.selectCard(card)),
+            (data) => new MemoryCard(
+                data,
+                this.getCardBackPath(),
+                (card) => this.selectCard(card),
+            ),
         );
         this.board.replaceChildren(...this.cards.map((card) => card.element));
         this.updateInterface();
@@ -64,8 +69,18 @@ export class MemoryGame {
     /** Selects random motifs, duplicates them and shuffles the pairs. */
     private createRoundCards(): CardData[] {
         const pairCount = this.settings.boardSize / 2;
-        const motifs = this.shuffle([...CODE_VIBES_CARDS]).slice(0, pairCount);
+        const motifs = this.shuffle([...this.getThemeCards()]).slice(0, pairCount);
         return this.shuffle([...motifs, ...motifs]);
+    }
+
+    /** Returns the motifs belonging to the selected theme. */
+    private getThemeCards(): CardData[] {
+        return this.settings.theme === "gaming" ? GAMING_CARDS : CODE_VIBES_CARDS;
+    }
+
+    /** Returns the covered card image belonging to the selected theme. */
+    private getCardBackPath(): string {
+        return `/assets/themes/${this.settings.theme}/card-back.png`;
     }
 
     /** Handles one available card selection. */

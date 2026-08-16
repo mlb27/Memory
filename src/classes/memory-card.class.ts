@@ -1,7 +1,5 @@
 import type { CardData } from "../types/game.types";
 
-const cardBackPath = "/assets/themes/code-vibes/card-back.png";
-
 export class MemoryCard {
     readonly element: HTMLButtonElement;
     private readonly clickHandler: () => void;
@@ -11,6 +9,7 @@ export class MemoryCard {
     /** Creates one clickable card and connects its selection callback. */
     constructor(
         public readonly data: CardData,
+        private readonly cardBackPath: string,
         onSelect: (card: MemoryCard) => void,
     ) {
         this.element = this.createElement();
@@ -47,6 +46,7 @@ export class MemoryCard {
     /** Keeps a found card visible and prevents further selections. */
     markAsMatched(): void {
         this.isMatched = true;
+        this.element.classList.add("is-matched");
         this.element.disabled = true;
         this.element.setAttribute("aria-label", `Gefundenes Paar: ${this.data.label}`);
     }
@@ -71,7 +71,7 @@ export class MemoryCard {
     private createCardMarkup(): string {
         return `<span class="memory-card__inner">
             <span class="memory-card__side memory-card__side--cover">
-                <img src="${cardBackPath}" alt="">
+                <img src="${this.cardBackPath}" alt="">
             </span>
             <span class="memory-card__side memory-card__side--picture">
                 <img src="${this.data.imagePath}" alt="">

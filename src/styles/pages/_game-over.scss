@@ -19,6 +19,11 @@
         height: auto;
     }
 
+    &__gaming-title {
+        display: none;
+        margin: 0;
+    }
+
     .final-score {
         margin-top: functions.px-to-rem(118);
     }

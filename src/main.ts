@@ -16,6 +16,13 @@ const quitDialog = document.querySelector<HTMLDialogElement>("#quit-dialog");
 const resultEyebrow = document.querySelector<HTMLElement>("#result-eyebrow");
 const resultTitle = document.querySelector<HTMLElement>("#result-title");
 const resultIcon = document.querySelector<HTMLImageElement>("#result-icon");
+const quitCancelButton = document.querySelector<HTMLButtonElement>(
+    '[data-action="close-quit-dialog"]',
+);
+const quitConfirmButton = document.querySelector<HTMLButtonElement>(
+    '[data-action="confirm-game-exit"]',
+);
+const resultButton = document.querySelector<HTMLButtonElement>('[data-action="back-to-settings"]');
 let activeGame: MemoryGame | null = null;
 let resultTimeout: number | undefined;
 
@@ -90,8 +97,9 @@ function updateSettingsSummary(): void {
 function isSupportedConfiguration(): boolean {
     const theme = getSelectedInput("theme")?.value;
     const boardSize = getSelectedInput("boardSize")?.value;
+    const supportedThemes = ["code-vibes", "gaming"];
     const supportedSizes = ["16", "24", "36"];
-    return theme === "code-vibes" && supportedSizes.includes(boardSize ?? "");
+    return supportedThemes.includes(theme ?? "") && supportedSizes.includes(boardSize ?? "");
 }
 
 /** Creates the selected game and displays its screen. */
@@ -137,8 +145,20 @@ function createGameSettings(
 function showGameScreen(settings: GameSettings): void {
     delete document.body.dataset.result;
     document.body.dataset.screen = "game";
+    document.body.dataset.theme = settings.theme;
     document.body.dataset.player = settings.startingPlayer;
     document.body.dataset.boardSize = String(settings.boardSize);
+    const themeName = settings.theme === "gaming" ? "Gaming" : "Code vibes";
+    gameScreen?.setAttribute("aria-label", `${themeName} Memory-Spiel`);
+    updateThemeTexts(settings.theme);
+}
+
+/** Updates labels that differ between both visual themes. */
+function updateThemeTexts(theme: GameTheme): void {
+    const isGaming = theme === "gaming";
+    if (quitCancelButton) quitCancelButton.textContent = isGaming ? "No, back to game" : "Back to game";
+    if (quitConfirmButton) quitConfirmButton.textContent = isGaming ? "Yes, quit game" : "Exit game";
+    if (resultButton) resultButton.textContent = isGaming ? "Home" : "Back to start";
 }
 
 /** Displays the outcome from the selected player's perspective. */
@@ -189,11 +209,38 @@ function getGameResult(scores: GameScores): GameResult {
 function updateResultContent(result: GameResult): void {
     const isDraw = result === "draw";
     if (resultEyebrow) resultEyebrow.textContent = isDraw ? "It's a" : "The winner is";
-    if (resultTitle) resultTitle.textContent = isDraw ? "DRAW" : `${result.toUpperCase()} PLAYER`;
+    if (resultTitle) resultTitle.textContent = getResultTitle(result);
     if (!resultIcon) return;
-    const imagePath = isDraw ? "/assets/results/scale.png" : `/assets/results/pawn-${result}.png`;
-    const imageText = isDraw ? "Balanced scale" : `${result} player`;
-    updateResultIcon(imagePath, imageText);
+    updateResultIcon(getResultImagePath(result), getResultImageText(result));
+}
+
+/** Returns the result headline in the selected theme's spelling. */
+function getResultTitle(result: GameResult): string {
+    if (result === "draw") return "DRAW";
+    const playerName = result === "blue" ? "Blue" : "Orange";
+    return isGamingTheme() ? `${playerName} Player` : `${playerName.toUpperCase()} PLAYER`;
+}
+
+/** Returns the theme-specific illustration for a completed game. */
+function getResultImagePath(result: GameResult): string {
+    if (isGamingTheme()) {
+        const imageName = result === "draw" ? "scale" : "trophy";
+        return `/assets/themes/gaming/results/${imageName}.png`;
+    }
+    if (result === "draw") return "/assets/results/scale.png";
+    return `/assets/results/pawn-${result}.png`;
+}
+
+/** Returns an accessible description of the current result image. */
+function getResultImageText(result: GameResult): string {
+    if (result === "draw") return "Balanced scale";
+    if (isGamingTheme()) return "Winner trophy";
+    return `${result} player`;
+}
+
+/** Checks whether the currently displayed theme is Gaming. */
+function isGamingTheme(): boolean {
+    return document.body.dataset.theme === "gaming";
 }
 
 /** Replaces the result icon without displaying its previous image. */
