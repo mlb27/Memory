@@ -356,6 +356,12 @@ body[data-theme="gaming"] {
     }
 }
 
+@media (max-width: functions.px-to-rem(460)) {
+    body[data-theme='gaming'] .game-over-screen__gaming-title {
+        font-size: functions.px-to-rem(40);
+    }
+}
+
 @media (max-width: functions.px-to-rem(450)) {
     body[data-theme="gaming"] .quit-dialog {
         &__actions {
