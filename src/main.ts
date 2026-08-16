@@ -9,20 +9,20 @@ import type {
     PlayerColor,
 } from "./types/game.types";
 
-const gameOverDuration = 3000;
-const settingsForm = document.querySelector<HTMLFormElement>("#settings-form");
-const gameScreen = document.querySelector<HTMLElement>("[data-screen-view=game]");
-const quitDialog = document.querySelector<HTMLDialogElement>("#quit-dialog");
-const resultEyebrow = document.querySelector<HTMLElement>("#result-eyebrow");
-const resultTitle = document.querySelector<HTMLElement>("#result-title");
-const resultIcon = document.querySelector<HTMLImageElement>("#result-icon");
-const quitCancelButton = document.querySelector<HTMLButtonElement>(
+const GAME_OVER_DURATION = 3000;
+const SETTINGS_FORM = document.querySelector<HTMLFormElement>("#settings-form");
+const GAME_SCREEN = document.querySelector<HTMLElement>("[data-screen-view=game]");
+const QUIT_DIALOG = document.querySelector<HTMLDialogElement>("#quit-dialog");
+const RESULT_EYEBROW = document.querySelector<HTMLElement>("#result-eyebrow");
+const RESULT_TITLE = document.querySelector<HTMLElement>("#result-title");
+const RESULT_ICON = document.querySelector<HTMLImageElement>("#result-icon");
+const QUIT_CANCEL_BUTTON = document.querySelector<HTMLButtonElement>(
     '[data-action="close-quit-dialog"]',
 );
-const quitConfirmButton = document.querySelector<HTMLButtonElement>(
+const QUIT_CONFIRM_BUTTON = document.querySelector<HTMLButtonElement>(
     '[data-action="confirm-game-exit"]',
 );
-const resultButton = document.querySelector<HTMLButtonElement>('[data-action="back-to-settings"]');
+const RESULT_BUTTON = document.querySelector<HTMLButtonElement>('[data-action="back-to-settings"]');
 let activeGame: MemoryGame | null = null;
 let resultTimeout: number | undefined;
 
@@ -35,7 +35,7 @@ function initializeMemory(): void {
     );
 
     playButton?.addEventListener("click", showSettings);
-    settingsForm?.addEventListener("change", handleSettingsChange);
+    SETTINGS_FORM?.addEventListener("change", handleSettingsChange);
     addActionListener("start-game", startSelectedGame);
     addActionListener("open-quit-dialog", openQuitDialog);
     addActionListener("close-quit-dialog", closeQuitDialog);
@@ -66,7 +66,7 @@ function handleSettingsChange(event: Event): void {
 
 /** Returns the currently selected input of a radio group. */
 function getSelectedInput(name: string): HTMLInputElement | null {
-    return settingsForm?.querySelector<HTMLInputElement>(
+    return SETTINGS_FORM?.querySelector<HTMLInputElement>(
         `input[name="${name}"]:checked`,
     ) ?? null;
 }
@@ -85,7 +85,7 @@ function updateSettingsSummary(): void {
     const hasTheme = updateSummaryValue("theme-summary", "theme", "Game theme");
     const hasPlayer = updateSummaryValue("player-summary", "player", "Player");
     const hasBoard = updateSummaryValue("board-summary", "boardSize", "Board size");
-    const startButton = settingsForm?.querySelector<HTMLButtonElement>(
+    const startButton = SETTINGS_FORM?.querySelector<HTMLButtonElement>(
         "[data-action=start-game]",
     );
     const isSupported = isSupportedConfiguration();
@@ -106,11 +106,11 @@ function isSupportedConfiguration(): boolean {
 function startSelectedGame(): void {
     const settings = getGameSettings();
 
-    if (!settings || !gameScreen || !isSupportedConfiguration()) return;
+    if (!settings || !GAME_SCREEN || !isSupportedConfiguration()) return;
     clearResultTransition();
     activeGame?.destroy();
     activeGame = new MemoryGame(
-        gameScreen,
+        GAME_SCREEN,
         settings,
         (scores) => handleCompletedGame(scores, settings.startingPlayer),
     );
@@ -149,16 +149,16 @@ function showGameScreen(settings: GameSettings): void {
     document.body.dataset.player = settings.startingPlayer;
     document.body.dataset.boardSize = String(settings.boardSize);
     const themeName = settings.theme === "gaming" ? "Gaming" : "Code vibes";
-    gameScreen?.setAttribute("aria-label", `${themeName} memory game`);
+    GAME_SCREEN?.setAttribute("aria-label", `${themeName} memory game`);
     updateThemeTexts(settings.theme);
 }
 
 /** Updates labels that differ between both visual themes. */
 function updateThemeTexts(theme: GameTheme): void {
     const isGaming = theme === "gaming";
-    if (quitCancelButton) quitCancelButton.textContent = isGaming ? "No, back to game" : "Back to game";
-    if (quitConfirmButton) quitConfirmButton.textContent = isGaming ? "Yes, quit game" : "Exit game";
-    if (resultButton) resultButton.textContent = isGaming ? "Home" : "Back to start";
+    if (QUIT_CANCEL_BUTTON) QUIT_CANCEL_BUTTON.textContent = isGaming ? "No, back to game" : "Back to game";
+    if (QUIT_CONFIRM_BUTTON) QUIT_CONFIRM_BUTTON.textContent = isGaming ? "Yes, quit game" : "Exit game";
+    if (RESULT_BUTTON) RESULT_BUTTON.textContent = isGaming ? "Home" : "Back to start";
 }
 
 /** Displays the outcome from the selected player's perspective. */
@@ -179,7 +179,7 @@ function showGameOver(scores: GameScores, result: GameResult): void {
     document.body.dataset.screen = "game-over";
     resultTimeout = window.setTimeout(
         () => showResultScreen(result),
-        gameOverDuration,
+        GAME_OVER_DURATION,
     );
 }
 
@@ -208,9 +208,9 @@ function getGameResult(scores: GameScores): GameResult {
 /** Updates the shared result elements for winner or draw. */
 function updateResultContent(result: GameResult): void {
     const isDraw = result === "draw";
-    if (resultEyebrow) resultEyebrow.textContent = isDraw ? "It's a" : "The winner is";
-    if (resultTitle) resultTitle.textContent = getResultTitle(result);
-    if (!resultIcon) return;
+    if (RESULT_EYEBROW) RESULT_EYEBROW.textContent = isDraw ? "It's a" : "The winner is";
+    if (RESULT_TITLE) RESULT_TITLE.textContent = getResultTitle(result);
+    if (!RESULT_ICON) return;
     updateResultIcon(getResultImagePath(result), getResultImageText(result));
 }
 
@@ -245,29 +245,29 @@ function isGamingTheme(): boolean {
 
 /** Replaces the result icon without displaying its previous image. */
 function updateResultIcon(imagePath: string, imageText: string): void {
-    if (!resultIcon) return;
-    resultIcon.classList.add("is-loading");
-    resultIcon.onload = showResultIcon;
-    resultIcon.src = imagePath;
-    resultIcon.alt = imageText;
-    if (resultIcon.complete) showResultIcon();
+    if (!RESULT_ICON) return;
+    RESULT_ICON.classList.add("is-loading");
+    RESULT_ICON.onload = showResultIcon;
+    RESULT_ICON.src = imagePath;
+    RESULT_ICON.alt = imageText;
+    if (RESULT_ICON.complete) showResultIcon();
 }
 
 /** Reveals the result icon after its new image is available. */
 function showResultIcon(): void {
-    if (!resultIcon) return;
-    resultIcon.classList.remove("is-loading");
-    resultIcon.onload = null;
+    if (!RESULT_ICON) return;
+    RESULT_ICON.classList.remove("is-loading");
+    RESULT_ICON.onload = null;
 }
 
 /** Opens the native confirmation dialog. */
 function openQuitDialog(): void {
-    if (quitDialog && !quitDialog.open) quitDialog.showModal();
+    if (QUIT_DIALOG && !QUIT_DIALOG.open) QUIT_DIALOG.showModal();
 }
 
 /** Closes the confirmation dialog. */
 function closeQuitDialog(): void {
-    if (quitDialog?.open) quitDialog.close();
+    if (QUIT_DIALOG?.open) QUIT_DIALOG.close();
 }
 
 /** Ends the active game and returns to its settings. */

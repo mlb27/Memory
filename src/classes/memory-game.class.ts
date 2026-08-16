@@ -4,8 +4,8 @@ import type { CardData, GameScores, GameSettings } from "../types/game.types";
 import { MemoryCard } from "./memory-card.class";
 import { Player } from "./player.class";
 
-const mismatchDelay = 700;
-const completionDelay = 700;
+const MISMATCH_DELAY = 700;
+const COMPLETION_DELAY = 700;
 
 export class MemoryGame {
     private readonly board: HTMLElement;
@@ -119,7 +119,7 @@ export class MemoryGame {
         this.boardIsLocked = true;
         this.completionTimeout = window.setTimeout(
             () => this.onGameOver(this.getScores()),
-            completionDelay,
+            COMPLETION_DELAY,
         );
     }
 
@@ -133,7 +133,7 @@ export class MemoryGame {
 
     /** Waits briefly before concealing an incorrect pair. */
     private scheduleMismatch(): void {
-        this.mismatchTimeout = window.setTimeout(() => this.resolveMismatch(), mismatchDelay);
+        this.mismatchTimeout = window.setTimeout(() => this.resolveMismatch(), MISMATCH_DELAY);
     }
 
     /** Conceals an incorrect pair and hands over the turn. */
