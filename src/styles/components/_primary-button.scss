@@ -37,7 +37,7 @@
     );
     font-weight: 700;
     line-height: 1;
-    transition: width 250ms ease, height 250ms ease;
+    transition: width 350ms ease, height 350ms ease;
 
     &:hover,
     &:focus-visible {
@@ -63,18 +63,42 @@
         transform: rotate(26deg);
     }
 
-    &:hover &__arrow,
-    &:focus-visible &__arrow {
-        width: functions.px-to-rem(40);
-        content: url("/assets/icons/arrow-right-hover.png");
+    &__controller {
+        transition: transform 350ms ease;
     }
 
-    &__controller {
-        transition: transform 250ms ease;
+    &__arrow {
+        position: relative;
+        flex-shrink: 0;
+        width: functions.px-to-rem(40);
+        height: functions.px-to-rem(30);
+    }
+
+    &__arrow-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: none;
+        transform: translate(-50%, -50%);
+        transition: opacity 350ms ease;
+    }
+
+    &__arrow-image--hover {
+        opacity: 0;
+    }
+
+    &:hover &__arrow-image--default,
+    &:focus-visible &__arrow-image--default {
+        opacity: 0;
+    }
+
+    &:hover &__arrow-image--hover,
+    &:focus-visible &__arrow-image--hover {
+        opacity: 1;
     }
 }
 
-.primary-button img {
+.primary-button > img {
     flex-shrink: 0;
     max-width: 20%;
     height: auto;
@@ -82,7 +106,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .primary-button,
-    .primary-button__controller {
+    .primary-button__controller,
+    .primary-button__arrow-image {
         transition: none;
     }
 }
