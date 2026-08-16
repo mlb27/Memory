@@ -194,7 +194,7 @@ function updateFinalScores(scores: GameScores): void {
 /** Updates one final-score icon for the selected theme. */
 function updateFinalScoreIcon(icon: HTMLImageElement | null, player: PlayerColor): void {
   if (!icon) return;
-  const folder = isGamingTheme() ? "/assets/resuts/pawn" : "/assets/icons/game/player";
+  const folder = isGamingTheme() ? "/assets/results/pawn" : "/assets/icons/game/player";
   icon.src = `${folder}-${player}.png`;
 }
 
