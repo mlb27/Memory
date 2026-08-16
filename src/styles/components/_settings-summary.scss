@@ -2,6 +2,7 @@
 @use "../abstracts/variables" as variables;
 
 .settings-summary {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -12,6 +13,18 @@
     color: variables.$color-primary-dark;
     font-size: functions.px-to-rem(20);
     line-height: 1;
+
+    &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        width: 0;
+        background-color: variables.$color-light-gray;
+        content: "";
+        pointer-events: none;
+        transition: width 350ms ease;
+    }
 
     &__separator {
         width: functions.px-to-rem(7);
@@ -41,7 +54,7 @@
 
     &__button:not(:disabled):hover,
     &__button:not(:disabled):focus-visible {
-        transform: translateX(functions.px-to-rem(6)) scale(1.08);
+        transform: scale(1.08);
     }
 
     &__button-icon {
@@ -64,6 +77,13 @@
     }
 }
 
+.settings-summary:has(.settings-summary__button:not(:disabled):hover),
+.settings-summary:has(.settings-summary__button:not(:disabled):focus-visible) {
+    &::after {
+        width: functions.px-to-rem(8);
+    }
+}
+
 @media (max-width: functions.px-to-rem(620)) {
     .settings-summary__button:not(:disabled):hover,
     .settings-summary__button:not(:disabled):focus-visible,
@@ -71,9 +91,15 @@
     .settings-summary__button:not(:disabled):focus-visible .settings-summary__button-icon {
         transform: none;
     }
+
+    .settings-summary:has(.settings-summary__button:not(:disabled):hover)::after,
+    .settings-summary:has(.settings-summary__button:not(:disabled):focus-visible)::after {
+        width: 0;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .settings-summary::after,
     .settings-summary__button,
     .settings-summary__button-icon {
         transition: none;
