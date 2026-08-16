@@ -145,7 +145,8 @@ body[data-theme="gaming"] {
     }
 
     .game-header .player-score img,
-    .game-header__current-player img {
+    .game-header__current-player img,
+    .final-score .player-score img {
         width: functions.px-to-rem(16);
         height: functions.px-to-rem(20);
         object-fit: contain;

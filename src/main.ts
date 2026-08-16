@@ -200,7 +200,6 @@ function updateFinalScoreIcon(icon: HTMLImageElement | null, player: PlayerColor
   if (!icon) return;
   const folder = isGamingTheme() ? "/assets/resuts/pawn" : "/assets/icons/game/player";
   icon.src = `${folder}-${player}.png`;
-  icon.width = isGamingTheme() ? 16 : 24;
 }
 
 /** Displays the prepared winner or draw screen. */
