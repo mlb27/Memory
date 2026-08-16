@@ -114,7 +114,7 @@ function startSelectedGame(): void {
   activeGame = new MemoryGame(
     GAME_SCREEN,
     settings,
-    (scores) => handleCompletedGame(scores, settings.startingPlayer),
+    handleCompletedGame,
   );
   activeGame.start();
   showGameScreen(settings);
@@ -163,19 +163,15 @@ function updateThemeTexts(theme: GameTheme): void {
   if (RESULT_BUTTON) RESULT_BUTTON.textContent = isGaming ? "Home" : "Back to start";
 }
 
-/** Displays the outcome from the selected player's perspective. */
-function handleCompletedGame(scores: GameScores, selectedPlayer: PlayerColor): void {
+/** Displays the final score before revealing the game's result. */
+function handleCompletedGame(scores: GameScores): void {
   activeGame?.destroy();
   activeGame = null;
   const result = getGameResult(scores);
-  if (result === "draw" || result === selectedPlayer) {
-    showResultScreen(result);
-    return;
-  }
   showGameOver(scores, result);
 }
 
-/** Displays a loss briefly before revealing the winning opponent. */
+/** Displays the final score briefly before revealing the result. */
 function showGameOver(scores: GameScores, result: GameResult): void {
   updateFinalScores(scores);
   document.body.dataset.screen = "game-over";
