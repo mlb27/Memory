@@ -150,6 +150,32 @@ body[data-result="draw"] .result-screen {
     }
 }
 
+@media (min-width: functions.px-to-rem(1441)) {
+    body[data-theme='code-vibes'] .result-screen {
+        overflow: visible;
+    }
+
+    body[data-theme='code-vibes'] .result-screen::before {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 100vw;
+        height: functions.px-to-rem(327);
+        transform: translateX(-50%);
+        background-image: url('/assets/results/confetti-widescreen.png');
+        background-repeat: repeat-x;
+        background-position: top center;
+        background-size: functions.px-to-rem(3252) functions.px-to-rem(327);
+        content: '';
+        pointer-events: none;
+    }
+
+    body[data-theme='code-vibes'] .result-screen__confetti,
+    body[data-theme='code-vibes'][data-result='draw'] .result-screen::before {
+        display: none;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .result-screen {
         animation: none;

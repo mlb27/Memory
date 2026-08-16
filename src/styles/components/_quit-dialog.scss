@@ -54,7 +54,8 @@
 }
 
 @media (max-width: functions.px-to-rem(420)) {
-    .quit-dialog__actions {
+    body[data-theme='code-vibes'] .quit-dialog__actions {
         flex-direction: column;
+        align-items: center;
     }
 }
