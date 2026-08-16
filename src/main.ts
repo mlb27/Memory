@@ -16,6 +16,8 @@ const QUIT_DIALOG = document.querySelector<HTMLDialogElement>("#quit-dialog");
 const RESULT_EYEBROW = document.querySelector<HTMLElement>("#result-eyebrow");
 const RESULT_TITLE = document.querySelector<HTMLElement>("#result-title");
 const RESULT_ICON = document.querySelector<HTMLImageElement>("#result-icon");
+const FINAL_BLUE_ICON = document.querySelector<HTMLImageElement>("#final-blue-player-icon");
+const FINAL_ORANGE_ICON = document.querySelector<HTMLImageElement>("#final-orange-player-icon");
 const QUIT_CANCEL_BUTTON = document.querySelector<HTMLButtonElement>(
   '[data-action="close-quit-dialog"]',
 );
@@ -189,6 +191,16 @@ function updateFinalScores(scores: GameScores): void {
   const orangeScore = document.querySelector<HTMLElement>("#final-orange-score");
   if (blueScore) blueScore.textContent = String(scores.blue);
   if (orangeScore) orangeScore.textContent = String(scores.orange);
+  updateFinalScoreIcon(FINAL_BLUE_ICON, "blue");
+  updateFinalScoreIcon(FINAL_ORANGE_ICON, "orange");
+}
+
+/** Updates one final-score icon for the selected theme. */
+function updateFinalScoreIcon(icon: HTMLImageElement | null, player: PlayerColor): void {
+  if (!icon) return;
+  const folder = isGamingTheme() ? "/assets/resuts/pawn" : "/assets/icons/game/player";
+  icon.src = `${folder}-${player}.png`;
+  icon.width = isGamingTheme() ? 16 : 24;
 }
 
 /** Displays the prepared winner or draw screen. */
