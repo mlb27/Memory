@@ -31,7 +31,9 @@ let resultTimeout: number | undefined;
 
 initializeMemory();
 
-/** Initializes the navigation and all settings controls. */
+/**
+ * Initializes the navigation, settings controls and initial summary values.
+ */
 function initializeMemory(): void {
   const playButton = document.querySelector<HTMLButtonElement>(
     '[data-action="open-settings"]',
@@ -47,18 +49,27 @@ function initializeMemory(): void {
   updateSettingsSummary();
 }
 
-/** Connects one data-action button with its click handler. */
+/**
+ * Connects a button identified by its data action to a click handler.
+ * @param action - Value of the button's `data-action` attribute.
+ * @param handler - Function that runs when the button is clicked.
+ */
 function addActionListener(action: string, handler: () => void): void {
   const button = document.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);
   button?.addEventListener("click", handler);
 }
 
-/** Displays the settings screen. */
+/**
+ * Displays the settings screen by updating the active screen state.
+ */
 function showSettings(): void {
   document.body.dataset.screen = "settings";
 }
 
-/** Applies a changed setting and refreshes the summary. */
+/**
+ * Applies a changed radio setting and refreshes the settings summary.
+ * @param event - Change event emitted by the settings form.
+ */
 function handleSettingsChange(event: Event): void {
   const input = event.target;
 
@@ -67,14 +78,24 @@ function handleSettingsChange(event: Event): void {
   updateSettingsSummary();
 }
 
-/** Returns the currently selected input of a radio group. */
+/**
+ * Finds the currently selected input of a radio group.
+ * @param name - Name of the radio group to search.
+ * @returns The selected input, or `null` when no option is selected.
+ */
 function getSelectedInput(name: string): HTMLInputElement | null {
   return SETTINGS_FORM?.querySelector<HTMLInputElement>(
     `input[name="${name}"]:checked`,
   ) ?? null;
 }
 
-/** Updates one summary value with its selection or fallback text. */
+/**
+ * Updates one summary value with its selected option or fallback text.
+ * @param id - ID of the summary element to update.
+ * @param name - Name of the corresponding radio group.
+ * @param fallback - Text shown when the group has no selection.
+ * @returns Whether an option is selected in the radio group.
+ */
 function updateSummaryValue(id: string, name: string, fallback: string): boolean {
   const selectedInput = getSelectedInput(name);
   const summary = document.querySelector<HTMLElement>(`#${id}`);
@@ -83,7 +104,9 @@ function updateSummaryValue(id: string, name: string, fallback: string): boolean
   return selectedInput !== null;
 }
 
-/** Updates the selected values and the availability of the start button. */
+/**
+ * Updates all selected values and the availability of the start button.
+ */
 function updateSettingsSummary(): void {
   const hasTheme = updateSummaryValue("theme-summary", "theme", "Game theme");
   const hasPlayer = updateSummaryValue("player-summary", "player", "Player");
@@ -96,7 +119,10 @@ function updateSettingsSummary(): void {
   if (startButton) startButton.disabled = !(hasTheme && hasPlayer && hasBoard && isSupported);
 }
 
-/** Checks whether the currently selected game variant is implemented. */
+/**
+ * Checks whether the selected theme and board size are implemented.
+ * @returns Whether the current game configuration is supported.
+ */
 function isSupportedConfiguration(): boolean {
   const theme = getSelectedInput("theme")?.value;
   const boardSize = getSelectedInput("boardSize")?.value;
@@ -105,7 +131,9 @@ function isSupportedConfiguration(): boolean {
   return supportedThemes.includes(theme ?? "") && supportedSizes.includes(boardSize ?? "");
 }
 
-/** Creates the selected game and displays its screen. */
+/**
+ * Creates the selected game, starts it and displays the game screen.
+ */
 function startSelectedGame(): void {
   const settings = getGameSettings();
 
@@ -121,7 +149,10 @@ function startSelectedGame(): void {
   showGameScreen(settings);
 }
 
-/** Reads the complete selection from the settings form. */
+/**
+ * Reads the complete game selection from the settings form.
+ * @returns The selected game settings, or `null` when a value is missing.
+ */
 function getGameSettings(): GameSettings | null {
   const theme = getSelectedInput("theme")?.value;
   const player = getSelectedInput("player")?.value;
@@ -131,7 +162,13 @@ function getGameSettings(): GameSettings | null {
   return createGameSettings(theme, player, boardSize);
 }
 
-/** Converts controlled form values into typed game settings. */
+/**
+ * Converts validated form values into typed game settings.
+ * @param theme - Selected theme value from the settings form.
+ * @param player - Selected starting player value from the settings form.
+ * @param boardSize - Selected board-size value from the settings form.
+ * @returns The typed settings used to create a game.
+ */
 function createGameSettings(
   theme: string,
   player: string,
@@ -144,7 +181,10 @@ function createGameSettings(
   };
 }
 
-/** Stores the active game selection and displays the game screen. */
+/**
+ * Stores the active game selection and displays the game screen.
+ * @param settings - Complete settings of the game being displayed.
+ */
 function showGameScreen(settings: GameSettings): void {
   delete document.body.dataset.result;
   document.body.dataset.screen = "game";
@@ -156,7 +196,10 @@ function showGameScreen(settings: GameSettings): void {
   updateThemeTexts(settings.theme);
 }
 
-/** Updates labels that differ between both visual themes. */
+/**
+ * Updates interface labels that differ between the visual themes.
+ * @param theme - Theme whose labels should be displayed.
+ */
 function updateThemeTexts(theme: GameTheme): void {
   const isGaming = theme === "gaming";
   if (QUIT_CANCEL_BUTTON) QUIT_CANCEL_BUTTON.textContent = isGaming ? "No, back to game" : "Back to game";
@@ -164,7 +207,10 @@ function updateThemeTexts(theme: GameTheme): void {
   if (RESULT_BUTTON) RESULT_BUTTON.textContent = isGaming ? "Home" : "Back to start";
 }
 
-/** Displays the final score before revealing the game's result. */
+/**
+ * Stops the completed game and starts its result sequence.
+ * @param scores - Final scores reported by the completed game.
+ */
 function handleCompletedGame(scores: GameScores): void {
   activeGame?.destroy();
   activeGame = null;
@@ -172,7 +218,11 @@ function handleCompletedGame(scores: GameScores): void {
   showGameOver(scores, result);
 }
 
-/** Displays the final score briefly before revealing the result. */
+/**
+ * Displays the final score briefly before revealing the result screen.
+ * @param scores - Final scores displayed on the game-over screen.
+ * @param result - Winner color or draw result revealed afterwards.
+ */
 function showGameOver(scores: GameScores, result: GameResult): void {
   updateFinalScores(scores);
   document.body.dataset.screen = "game-over";
@@ -182,7 +232,10 @@ function showGameOver(scores: GameScores, result: GameResult): void {
   );
 }
 
-/** Writes the final score into the game-over screen. */
+/**
+ * Writes both final scores and theme-specific icons to the game-over screen.
+ * @param scores - Final blue and orange player scores.
+ */
 function updateFinalScores(scores: GameScores): void {
   const blueScore = document.querySelector<HTMLElement>("#final-blue-score");
   const orangeScore = document.querySelector<HTMLElement>("#final-orange-score");
@@ -192,14 +245,21 @@ function updateFinalScores(scores: GameScores): void {
   updateFinalScoreIcon(FINAL_ORANGE_ICON, "orange");
 }
 
-/** Updates one final-score icon for the selected theme. */
+/**
+ * Updates one final-score icon for the selected theme and player.
+ * @param icon - Image element that should display the player icon.
+ * @param player - Player color represented by the icon.
+ */
 function updateFinalScoreIcon(icon: HTMLImageElement | null, player: PlayerColor): void {
   if (!icon) return;
   const folder = isGamingTheme() ? "results/pawn" : "icons/game/player";
   icon.src = getAssetPath(`${folder}-${player}.png`);
 }
 
-/** Displays the prepared winner or draw screen. */
+/**
+ * Prepares and displays the winner or draw screen.
+ * @param result - Winner color or draw result to display.
+ */
 function showResultScreen(result: GameResult): void {
   document.body.dataset.result = result;
   updateResultContent(result);
@@ -207,13 +267,20 @@ function showResultScreen(result: GameResult): void {
   resultTimeout = undefined;
 }
 
-/** Compares both scores and returns the completed game's result. */
+/**
+ * Compares both scores and determines the completed game's result.
+ * @param scores - Final scores that should be compared.
+ * @returns The winner's color, or `draw` for equal scores.
+ */
 function getGameResult(scores: GameScores): GameResult {
   if (scores.blue === scores.orange) return "draw";
   return scores.blue > scores.orange ? "blue" : "orange";
 }
 
-/** Updates the shared result elements for winner or draw. */
+/**
+ * Updates the shared result elements for a winner or draw.
+ * @param result - Winner color or draw result to render.
+ */
 function updateResultContent(result: GameResult): void {
   const isDraw = result === "draw";
   if (RESULT_EYEBROW) RESULT_EYEBROW.textContent = isDraw ? "It's a" : "The winner is";
@@ -222,14 +289,22 @@ function updateResultContent(result: GameResult): void {
   updateResultIcon(getResultImagePath(result), getResultImageText(result));
 }
 
-/** Returns the result headline in the selected theme's spelling. */
+/**
+ * Creates the result headline in the selected theme's spelling.
+ * @param result - Winner color or draw result represented by the headline.
+ * @returns The theme-specific result headline.
+ */
 function getResultTitle(result: GameResult): string {
   if (result === "draw") return "DRAW";
   const playerName = result === "blue" ? "Blue" : "Orange";
   return isGamingTheme() ? `${playerName} Player` : `${playerName.toUpperCase()} PLAYER`;
 }
 
-/** Returns the theme-specific illustration for a completed game. */
+/**
+ * Creates the asset path for a theme-specific result illustration.
+ * @param result - Winner color or draw result represented by the image.
+ * @returns The public asset path of the matching illustration.
+ */
 function getResultImagePath(result: GameResult): string {
   if (isGamingTheme()) {
     const imageName = result === "draw" ? "scale" : "trophy";
@@ -239,19 +314,30 @@ function getResultImagePath(result: GameResult): string {
   return getAssetPath(`results/pawn-${result}.png`);
 }
 
-/** Returns an accessible description of the current result image. */
+/**
+ * Creates an accessible description of the current result image.
+ * @param result - Winner color or draw result represented by the image.
+ * @returns Alternative text for the result illustration.
+ */
 function getResultImageText(result: GameResult): string {
   if (result === "draw") return "Balanced scale";
   if (isGamingTheme()) return "Winner trophy";
   return `${result} player`;
 }
 
-/** Checks whether the currently displayed theme is Gaming. */
+/**
+ * Checks whether the currently displayed theme is Gaming.
+ * @returns Whether the Gaming theme is active.
+ */
 function isGamingTheme(): boolean {
   return document.body.dataset.theme === "gaming";
 }
 
-/** Replaces the result icon without displaying its previous image. */
+/**
+ * Replaces the result icon while hiding its previous image during loading.
+ * @param imagePath - Public path of the new result image.
+ * @param imageText - Accessible alternative text for the new image.
+ */
 function updateResultIcon(imagePath: string, imageText: string): void {
   if (!RESULT_ICON) return;
   RESULT_ICON.classList.add("is-loading");
@@ -261,19 +347,25 @@ function updateResultIcon(imagePath: string, imageText: string): void {
   if (RESULT_ICON.complete) showResultIcon();
 }
 
-/** Reveals the result icon after its new image is available. */
+/**
+ * Reveals the result icon after its new image has finished loading.
+ */
 function showResultIcon(): void {
   if (!RESULT_ICON) return;
   RESULT_ICON.classList.remove("is-loading");
   RESULT_ICON.onload = null;
 }
 
-/** Opens the native confirmation dialog. */
+/**
+ * Opens the native quit confirmation dialog when it is closed.
+ */
 function openQuitDialog(): void {
   if (QUIT_DIALOG && !QUIT_DIALOG.open) QUIT_DIALOG.showModal();
 }
 
-/** Closes the confirmation dialog. */
+/**
+ * Closes the quit confirmation dialog when it is open.
+ */
 function closeQuitDialog(): void {
   if (QUIT_DIALOG?.open) QUIT_DIALOG.close();
 }
@@ -286,14 +378,18 @@ function exitCurrentGame(): void {
   returnToSettings();
 }
 
-/** Returns from an outcome screen to the retained settings. */
+/**
+ * Returns from an outcome screen to the retained settings selection.
+ */
 function returnToSettings(): void {
   clearResultTransition();
   delete document.body.dataset.result;
   document.body.dataset.screen = "settings";
 }
 
-/** Cancels an unfinished transition to an outcome screen. */
+/**
+ * Cancels an unfinished transition to an outcome screen.
+ */
 function clearResultTransition(): void {
   if (resultTimeout) window.clearTimeout(resultTimeout);
   resultTimeout = undefined;

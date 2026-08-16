@@ -8,6 +8,7 @@ import { Player } from "./player.class";
 const MISMATCH_DELAY = 700;
 const COMPLETION_DELAY = 700;
 
+/** Controls one memory round, its cards, players and interface updates. */
 export class MemoryGame {
   private readonly board: HTMLElement;
   private readonly blueScore: HTMLElement;
@@ -25,7 +26,12 @@ export class MemoryGame {
   private matchedPairCount = 0;
   private boardIsLocked = false;
 
-  /** Creates the game state and reads its interface elements. */
+  /**
+   * Creates the game state and reads its required interface elements.
+   * @param root - Container that holds the complete game interface.
+   * @param settings - Theme, starting player and board size for the round.
+   * @param onGameOver - Callback invoked with both final scores.
+   */
   constructor(
     private readonly root: HTMLElement,
     private readonly settings: GameSettings,
@@ -56,7 +62,7 @@ export class MemoryGame {
     this.updateInterface();
   }
 
-  /** Clears pending work, listeners and rendered cards. */
+  /** Clears pending timeouts, card listeners and rendered cards. */
   destroy(): void {
     if (this.mismatchTimeout) window.clearTimeout(this.mismatchTimeout);
     if (this.completionTimeout) window.clearTimeout(this.completionTimeout);
@@ -66,29 +72,44 @@ export class MemoryGame {
     this.board.replaceChildren();
   }
 
-  /** Returns the player whose turn is currently active. */
+  /**
+   * Gets the player whose turn is currently active.
+   * @returns The player referenced by the current player index.
+   */
   private get currentPlayer(): Player {
     return this.players[this.currentPlayerIndex];
   }
 
-  /** Selects random motifs, duplicates them and shuffles the pairs. */
+  /**
+   * Selects random motifs, duplicates them and shuffles the pairs.
+   * @returns The shuffled card data used for the current round.
+   */
   private createRoundCards(): CardData[] {
     const pairCount = this.settings.boardSize / 2;
     const motifs = this.shuffle([...this.getThemeCards()]).slice(0, pairCount);
     return this.shuffle([...motifs, ...motifs]);
   }
 
-  /** Returns the motifs belonging to the selected theme. */
+  /**
+   * Gets all available motifs belonging to the selected theme.
+   * @returns The card data collection for the active theme.
+   */
   private getThemeCards(): CardData[] {
     return this.settings.theme === "gaming" ? GAMING_CARDS : CODE_VIBES_CARDS;
   }
 
-  /** Returns the covered card image belonging to the selected theme. */
+  /**
+   * Creates the asset path of the covered card for the selected theme.
+   * @returns The public path of the active theme's card-back image.
+   */
   private getCardBackPath(): string {
     return getAssetPath(`themes/${this.settings.theme}/card-back.png`);
   }
 
-  /** Handles one available card selection. */
+  /**
+   * Handles a card selection when the board and card are available.
+   * @param card - Card selected by the current player.
+   */
   private selectCard(card: MemoryCard): void {
     if (this.boardIsLocked || !card.isSelectable()) return;
     card.flip();
@@ -114,7 +135,7 @@ export class MemoryGame {
     this.checkForGameOver();
   }
 
-  /** Finishes the game after the final pair was visible briefly. */
+  /** Schedules game completion after the final pair was briefly visible. */
   private checkForGameOver(): void {
     if (this.matchedPairCount !== this.settings.boardSize / 2) return;
     this.boardIsLocked = true;
@@ -124,7 +145,10 @@ export class MemoryGame {
     );
   }
 
-  /** Returns a copy of the final player scores. */
+  /**
+   * Creates a copy of the current player scores.
+   * @returns The blue and orange player scores.
+   */
   private getScores(): GameScores {
     return {
       blue: this.players[0].score,
@@ -132,12 +156,12 @@ export class MemoryGame {
     };
   }
 
-  /** Waits briefly before concealing an incorrect pair. */
+  /** Schedules the concealment of an incorrect pair after a short delay. */
   private scheduleMismatch(): void {
     this.mismatchTimeout = window.setTimeout(() => this.resolveMismatch(), MISMATCH_DELAY);
   }
 
-  /** Conceals an incorrect pair and hands over the turn. */
+  /** Conceals an incorrect pair and hands the turn to the other player. */
   private resolveMismatch(): void {
     this.selectedCards.forEach((card) => card.hide());
     this.currentPlayerIndex = this.currentPlayerIndex === 0 ? 1 : 0;
@@ -145,14 +169,14 @@ export class MemoryGame {
     this.updateInterface();
   }
 
-  /** Releases both selected cards for the next turn. */
+  /** Releases both selected cards and unlocks the board for the next turn. */
   private finishTurn(): void {
     this.selectedCards = [];
     this.boardIsLocked = false;
     this.mismatchTimeout = undefined;
   }
 
-  /** Updates both scores and the current-player indicator. */
+  /** Updates both scores, player icons and the current-player indicator. */
   private updateInterface(): void {
     this.blueScore.textContent = String(this.players[0].score);
     this.orangeScore.textContent = String(this.players[1].score);
@@ -166,14 +190,25 @@ export class MemoryGame {
     );
   }
 
-  /** Returns a required interface element or reports invalid markup. */
+  /**
+   * Finds a required interface element inside the game container.
+   * @typeParam T - Expected HTML element type.
+   * @param selector - CSS selector used to locate the element.
+   * @returns The matching interface element.
+   * @throws Error when no matching element exists.
+   */
   private getElement<T extends HTMLElement>(selector: string): T {
     const element = this.root.querySelector<T>(selector);
     if (!element) throw new Error(`Missing game element: ${selector}`);
     return element;
   }
 
-  /** Returns a shuffled copy of the provided array. */
+  /**
+   * Shuffles the provided array in place using the Fisher-Yates algorithm.
+   * @typeParam T - Type of the array entries.
+   * @param items - Array whose entries should be shuffled.
+   * @returns The same array with its entries in randomized order.
+   */
   private shuffle<T>(items: T[]): T[] {
     for (let index = items.length - 1; index > 0; index -= 1) {
       const randomIndex = Math.floor(Math.random() * (index + 1));
