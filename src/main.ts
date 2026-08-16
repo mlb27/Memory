@@ -1,5 +1,6 @@
 import "./styles/style.scss";
 import { MemoryGame } from "./classes/memory-game.class";
+import { getAssetPath } from "./utils/asset-path";
 import type {
   BoardSize,
   GameResult,
@@ -194,8 +195,8 @@ function updateFinalScores(scores: GameScores): void {
 /** Updates one final-score icon for the selected theme. */
 function updateFinalScoreIcon(icon: HTMLImageElement | null, player: PlayerColor): void {
   if (!icon) return;
-  const folder = isGamingTheme() ? "/assets/results/pawn" : "/assets/icons/game/player";
-  icon.src = `${folder}-${player}.png`;
+  const folder = isGamingTheme() ? "results/pawn" : "icons/game/player";
+  icon.src = getAssetPath(`${folder}-${player}.png`);
 }
 
 /** Displays the prepared winner or draw screen. */
@@ -232,10 +233,10 @@ function getResultTitle(result: GameResult): string {
 function getResultImagePath(result: GameResult): string {
   if (isGamingTheme()) {
     const imageName = result === "draw" ? "scale" : "trophy";
-    return `/assets/themes/gaming/results/${imageName}.png`;
+    return getAssetPath(`themes/gaming/results/${imageName}.png`);
   }
-  if (result === "draw") return "/assets/results/scale.png";
-  return `/assets/results/pawn-${result}.png`;
+  if (result === "draw") return getAssetPath("results/scale.png");
+  return getAssetPath(`results/pawn-${result}.png`);
 }
 
 /** Returns an accessible description of the current result image. */

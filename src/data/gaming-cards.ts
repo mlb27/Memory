@@ -1,6 +1,7 @@
+import { getAssetPath } from "../utils/asset-path";
 import type { CardData } from "../types/game.types";
 
-const CARD_PATH = "/assets/themes/gaming/cards";
+const CARD_PATH = getAssetPath("themes/gaming/cards");
 
 export const GAMING_CARDS: CardData[] = [
   { pairId: "ace-of-diamonds", label: "Ace of diamonds", imagePath: `${CARD_PATH}/ace-of-diamonds.png` },

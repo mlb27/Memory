@@ -1,3 +1,4 @@
+import { getAssetPath } from "../utils/asset-path";
 import type { GameTheme, PlayerColor } from "../types/game.types";
 
 export class Player {
@@ -13,8 +14,8 @@ export class Player {
 
   /** Returns the matching player icon for the selected theme. */
   getIconPath(theme: GameTheme): string {
-    if (theme === "gaming") return `/assets/results/pawn-${this.color}.png`;
-    return `/assets/icons/game/player-${this.color}.png`;
+    if (theme === "gaming") return getAssetPath(`results/pawn-${this.color}.png`);
+    return getAssetPath(`icons/game/player-${this.color}.png`);
   }
 
   /** Adds the two cards of a found pair to the score. */

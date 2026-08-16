@@ -1,5 +1,6 @@
 import { CODE_VIBES_CARDS } from "../data/code-vibes-cards";
 import { GAMING_CARDS } from "../data/gaming-cards";
+import { getAssetPath } from "../utils/asset-path";
 import type { CardData, GameScores, GameSettings } from "../types/game.types";
 import { MemoryCard } from "./memory-card.class";
 import { Player } from "./player.class";
@@ -84,7 +85,7 @@ export class MemoryGame {
 
   /** Returns the covered card image belonging to the selected theme. */
   private getCardBackPath(): string {
-    return `/assets/themes/${this.settings.theme}/card-back.png`;
+    return getAssetPath(`themes/${this.settings.theme}/card-back.png`);
   }
 
   /** Handles one available card selection. */

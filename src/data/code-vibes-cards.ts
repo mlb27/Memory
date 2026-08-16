@@ -1,6 +1,7 @@
+import { getAssetPath } from "../utils/asset-path";
 import type { CardData } from "../types/game.types";
 
-const CARD_PATH = "/assets/themes/code-vibes/cards";
+const CARD_PATH = getAssetPath("themes/code-vibes/cards");
 
 export const CODE_VIBES_CARDS: CardData[] = [
   { pairId: "angular", label: "Angular", imagePath: `${CARD_PATH}/angular.png` },
