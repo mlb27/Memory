@@ -144,6 +144,13 @@ body[data-theme="gaming"] {
         }
     }
 
+    .game-header .player-score img,
+    .game-header__current-player img {
+        width: functions.px-to-rem(16);
+        height: functions.px-to-rem(20);
+        object-fit: contain;
+    }
+
     .quit-dialog {
         width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(430));
         min-height: functions.px-to-rem(220);

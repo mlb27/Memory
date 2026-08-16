@@ -1,4 +1,4 @@
-import type { PlayerColor } from "../types/game.types";
+import type { GameTheme, PlayerColor } from "../types/game.types";
 
 export class Player {
     score = 0;
@@ -11,8 +11,9 @@ export class Player {
         return this.color === "blue" ? "Blue" : "Orange";
     }
 
-    /** Returns the matching player-label asset. */
-    get iconPath(): string {
+    /** Returns the matching player icon for the selected theme. */
+    getIconPath(theme: GameTheme): string {
+        if (theme === "gaming") return `/assets/results/pawn-${this.color}.png`;
         return `/assets/icons/game/player-${this.color}.png`;
     }
 

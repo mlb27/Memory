@@ -10,7 +10,9 @@ const completionDelay = 700;
 export class MemoryGame {
     private readonly board: HTMLElement;
     private readonly blueScore: HTMLElement;
+    private readonly bluePlayerIcon: HTMLImageElement;
     private readonly orangeScore: HTMLElement;
+    private readonly orangePlayerIcon: HTMLImageElement;
     private readonly currentPlayerDisplay: HTMLElement;
     private readonly currentPlayerIcon: HTMLImageElement;
     private readonly players: [Player, Player];
@@ -32,7 +34,9 @@ export class MemoryGame {
         this.currentPlayerIndex = settings.startingPlayer === "blue" ? 0 : 1;
         this.board = this.getElement<HTMLElement>("#memory-board");
         this.blueScore = this.getElement<HTMLElement>("#blue-score");
+        this.bluePlayerIcon = this.getElement<HTMLImageElement>("#blue-player-icon");
         this.orangeScore = this.getElement<HTMLElement>("#orange-score");
+        this.orangePlayerIcon = this.getElement<HTMLImageElement>("#orange-player-icon");
         this.currentPlayerDisplay = this.getElement<HTMLElement>("#current-player");
         this.currentPlayerIcon = this.getElement<HTMLImageElement>("#current-player-icon");
     }
@@ -151,7 +155,9 @@ export class MemoryGame {
     private updateInterface(): void {
         this.blueScore.textContent = String(this.players[0].score);
         this.orangeScore.textContent = String(this.players[1].score);
-        this.currentPlayerIcon.src = this.currentPlayer.iconPath;
+        this.bluePlayerIcon.src = this.players[0].getIconPath(this.settings.theme);
+        this.orangePlayerIcon.src = this.players[1].getIconPath(this.settings.theme);
+        this.currentPlayerIcon.src = this.currentPlayer.getIconPath(this.settings.theme);
         this.currentPlayerIcon.alt = this.currentPlayer.name;
         this.currentPlayerDisplay.setAttribute(
             "aria-label",
