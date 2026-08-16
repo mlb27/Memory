@@ -16,10 +16,11 @@ body[data-theme="gaming"] {
     }
 
     .game-screen {
+        --gaming-vertical-reserve: #{functions.px-to-rem(229)};
         --memory-card-width: min(
             #{functions.px-to-rem(105)},
             calc((100vw - #{functions.px-to-rem(80)}) / 4),
-            calc((100svh - #{functions.px-to-rem(205)}) / 4.5714)
+            calc((100svh - var(--gaming-vertical-reserve)) / 4.5714)
         );
         --memory-card-height: auto;
         --memory-card-gap: clamp(
@@ -27,6 +28,7 @@ body[data-theme="gaming"] {
             1.111vw,
             #{functions.px-to-rem(16)}
         );
+        padding-bottom: functions.px-to-rem(32);
         background-color: variables.$color-gaming-background;
     }
 
@@ -34,7 +36,7 @@ body[data-theme="gaming"] {
         --memory-card-width: min(
             #{functions.px-to-rem(105)},
             calc((100vw - #{functions.px-to-rem(112)}) / 6),
-            calc((100svh - #{functions.px-to-rem(205)}) / 4.5714)
+            calc((100svh - var(--gaming-vertical-reserve)) / 4.5714)
         );
     }
 
@@ -42,8 +44,12 @@ body[data-theme="gaming"] {
         --memory-card-width: min(
             #{functions.px-to-rem(105)},
             calc((100vw - #{functions.px-to-rem(112)}) / 6),
-            calc((100svh - #{functions.px-to-rem(253)}) / 6.8571)
+            calc((100svh - var(--gaming-vertical-reserve)) / 6.8571)
         );
+    }
+
+    &[data-board-size='36'] .game-screen {
+        --gaming-vertical-reserve: #{functions.px-to-rem(261)};
     }
 
     .memory-board {
@@ -314,6 +320,14 @@ body[data-theme="gaming"] {
             width: auto;
         }
     }
+
+    body[data-theme='gaming'] .game-screen {
+        --gaming-vertical-reserve: #{functions.px-to-rem(238)};
+    }
+
+    body[data-theme='gaming'][data-board-size='36'] .game-screen {
+        --gaming-vertical-reserve: #{functions.px-to-rem(257)};
+    }
 }
 
 @media (max-width: functions.px-to-rem(600)) {
@@ -346,10 +360,29 @@ body[data-theme="gaming"] {
     body[data-theme="gaming"] .quit-dialog {
         &__actions {
             flex-direction: column;
+            align-items: center;
         }
 
         &__button {
-            width: 100%;
+            width: auto;
+        }
+    }
+}
+
+@media (max-width: functions.px-to-rem(350)) {
+    body[data-theme='gaming'] .game-header {
+        width: calc(100% - functions.px-to-rem(16));
+
+        &__exit {
+            min-height: functions.px-to-rem(40);
+            padding: functions.px-to-rem(6);
+            gap: functions.px-to-rem(4);
+            font-size: functions.px-to-rem(12);
+        }
+
+        &__exit img {
+            width: functions.px-to-rem(20);
+            height: functions.px-to-rem(20);
         }
     }
 }
