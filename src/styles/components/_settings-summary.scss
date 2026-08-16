@@ -36,6 +36,21 @@
         font-size: functions.px-to-rem(20);
         font-weight: 700;
         line-height: 1;
+        transition: transform 350ms ease;
+    }
+
+    &__button:not(:disabled):hover,
+    &__button:not(:disabled):focus-visible {
+        transform: translateX(functions.px-to-rem(6)) scale(1.08);
+    }
+
+    &__button-icon {
+        transition: transform 350ms ease;
+    }
+
+    &__button:not(:disabled):hover &__button-icon,
+    &__button:not(:disabled):focus-visible &__button-icon {
+        transform: rotate(-10deg);
     }
 
     &__button:disabled {
@@ -46,5 +61,21 @@
     &__button:focus-visible {
         outline: functions.px-to-rem(3) solid variables.$color-primary-dark;
         outline-offset: functions.px-to-rem(3);
+    }
+}
+
+@media (max-width: functions.px-to-rem(620)) {
+    .settings-summary__button:not(:disabled):hover,
+    .settings-summary__button:not(:disabled):focus-visible,
+    .settings-summary__button:not(:disabled):hover .settings-summary__button-icon,
+    .settings-summary__button:not(:disabled):focus-visible .settings-summary__button-icon {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .settings-summary__button,
+    .settings-summary__button-icon {
+        transition: none;
     }
 }
