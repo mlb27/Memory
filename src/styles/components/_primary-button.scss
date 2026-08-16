@@ -37,10 +37,52 @@
     );
     font-weight: 700;
     line-height: 1;
+    transition: width 250ms ease, height 250ms ease;
+
+    &:hover,
+    &:focus-visible {
+        width: clamp(
+            functions.px-to-rem(215),
+            26.9vw,
+            functions.px-to-rem(269)
+        );
+        height: clamp(
+            functions.px-to-rem(75),
+            10.2vw,
+            functions.px-to-rem(102)
+        );
+    }
+
+    &:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$color-white;
+        outline-offset: functions.px-to-rem(4);
+    }
+
+    &:hover &__controller,
+    &:focus-visible &__controller {
+        transform: rotate(26deg);
+    }
+
+    &:hover &__arrow,
+    &:focus-visible &__arrow {
+        width: functions.px-to-rem(40);
+        content: url("/assets/icons/arrow-right-hover.png");
+    }
+
+    &__controller {
+        transition: transform 250ms ease;
+    }
 }
 
 .primary-button img {
     flex-shrink: 0;
     max-width: 20%;
     height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .primary-button,
+    .primary-button__controller {
+        transition: none;
+    }
 }
