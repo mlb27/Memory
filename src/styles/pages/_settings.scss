@@ -77,13 +77,19 @@ body[data-theme="gaming"] .settings__preview {
     background-image: url("/assets/settings/gaming-preview.png");
 }
 
-.settings__form:has(.settings-option--code-vibes:hover) .settings__preview,
 .settings__form:has(.settings-option--code-vibes:focus-within) .settings__preview {
     background-image: url("/assets/settings/code-vibes-preview.png");
 }
 
-.settings__form:has(.settings-option--gaming:hover) .settings__preview,
 .settings__form:has(.settings-option--gaming:focus-within) .settings__preview {
+    background-image: url("/assets/settings/gaming-preview.png");
+}
+
+.settings__form:has(.settings-option--code-vibes:hover) .settings__preview {
+    background-image: url("/assets/settings/code-vibes-preview.png");
+}
+
+.settings__form:has(.settings-option--gaming:hover) .settings__preview {
     background-image: url("/assets/settings/gaming-preview.png");
 }
 
