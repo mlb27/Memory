@@ -97,21 +97,21 @@
 }
 
 @media (hover: hover) {
-    .settings-group:not(.settings-group--themes) .settings-option {
+    .settings-option {
         transition: transform 150ms ease-in-out;
     }
 
-    .settings-group:not(.settings-group--themes) .settings-option:hover {
+    .settings-option:hover {
         transform: translateX(functions.px-to-rem(4));
     }
 
-    .settings-group:not(.settings-group--themes) .settings-option:hover input {
+    .settings-option:hover input {
         border-color: variables.$color-secondary-yellow;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .settings-group:not(.settings-group--themes) .settings-option {
+    .settings-option {
         transition: none;
     }
 }
