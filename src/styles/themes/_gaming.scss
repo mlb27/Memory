@@ -60,17 +60,6 @@ body[data-theme="gaming"] {
         height: auto;
         aspect-ratio: 7 / 8;
 
-        &__side {
-            overflow: visible;
-        }
-
-        img {
-            width: 122.857%;
-            max-width: none;
-            height: 120%;
-            object-fit: fill;
-        }
-
         &.is-matched &__side--picture::after {
             position: absolute;
             top: 3.333%;
