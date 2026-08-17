@@ -61,9 +61,9 @@
     }
 
     &__decoration {
-        position: absolute;
+        position: fixed;
         bottom: functions.px-to-rem(13);
-        left: functions.px-to-rem(88);
+        left: 0;
         width: functions.px-to-rem(363);
         height: functions.px-to-rem(410);
         animation: controller-float 4s ease-in-out infinite;

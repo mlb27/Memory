@@ -29,8 +29,8 @@ export class Player {
     return getAssetPath(`icons/game/player-${this.color}.png`);
   }
 
-  /** Adds the two cards of a found pair to the player's score. */
+  /** Adds one point for a found pair to the player's score. */
   addPair(): void {
-    this.score += 2;
+    this.score += 1;
   }
 }
